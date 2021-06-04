@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen">
-    <Navbar />
+  <div class="min-h-screen dark:bg-gray-800">
     <div class="md:max-w-6xl mx-auto p-4">
+      <toggle-dark-mode />
       <nuxt />
     </div>
   </div>

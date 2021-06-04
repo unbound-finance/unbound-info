@@ -203,34 +203,34 @@
               <thead>
                 <tr class="bg-white dark:bg-gray-900">
                   <th
-                    class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Name
                   </th>
 
                   <th
-                    class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
                     title="Unbound Total Value Locked"
                   >
                     Unbound TVL
                   </th>
                   <th
-                    class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
                     title="Uniswap Total Value Locked"
                   >
                     Uniswap TVL
                   </th>
                   <th
-                    class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Funding Rate
                   </th>
                   <th
-                    class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Minting Fee
                   </th>
-                  <th class="px-6 py-3 bg-gray-50"></th>
+                  <th class="px-6 py-3 bg-gray-50 dark:bg-gray-900"></th>
                 </tr>
               </thead>
               <tbody
