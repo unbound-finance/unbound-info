@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ countries }}
     <div
       class="w-full p-4 rounded-md bg-white dark:bg-gray-900 bg-opacity-75 border border-gray-200 dark:border-gray-800 flex flex-wrap items-center"
     >
@@ -364,6 +365,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import gql from 'graphql-tag'
 
 export default Vue.extend({
   data() {
@@ -394,6 +396,16 @@ export default Vue.extend({
       checkForProvider: null,
     }
   },
+  // apollo:{
+  //   countries: gql`
+  //     query{
+  //       countries{
+  //         name
+  //         capital
+  //       }
+  //     }
+  //   `
+  // }
 })
 </script>
 

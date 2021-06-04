@@ -36,12 +36,24 @@ export default {
     '@nuxtjs/color-mode',
   ],
 
+  //Module Configurations
   colorMode: {
     classSuffix: ''
   },
 
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: 'https://countries.trevorblades.com/', //testing
+      }
+    }
+  },
+
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+  modules: [
+    '@nuxtjs/apollo',
+  ],
+
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
