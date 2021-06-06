@@ -8,7 +8,7 @@ const getLLC = async (llcAddress) => {
   const valuator = new ethers.Contract(
     contracts.valuator,
     UNBOUND_VALUATOR_ABI,
-    signer
+    provider
   )
 
   const getLLCStruct = await valuator.getLLCStruct(llcAddress)

@@ -10,7 +10,7 @@ const getTokenBalance = async (tokenAddress) => {
     const poolTokenContract = await new ethers.Contract(
       tokenAddress,
       ERC20ABI,
-      signer
+      provider
     )
     const raw = await poolTokenContract.balanceOf(userAddress)
     const formatted = ethers.utils.formatEther(raw.toString())
@@ -28,7 +28,7 @@ const getTokenBalance = async (tokenAddress) => {
 
 const getDecimals = async (tokenAddress) => {
   const { provider, signer } = getProvider()
-  const token = new ethers.Contract(tokenAddress, ERC20ABI, signer)
+  const token = new ethers.Contract(tokenAddress, ERC20ABI, provider)
   const decimals = await token.decimals()
   return decimals.toString()
 }

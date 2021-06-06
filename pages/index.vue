@@ -2,47 +2,48 @@
   <div>
     <div
       class="
+        bg-white
+        border
+        rounded-md
+        flex flex-wrap
+        bg-opacity-75
+        border-gray-200
         w-full
         p-4
-        rounded-md
-        bg-white
-        dark:bg-gray-900
-        bg-opacity-75
-        border border-gray-200
-        dark:border-gray-800
-        flex flex-wrap
         items-center
+        dark:bg-gray-900
+        dark:border-gray-800
       "
     >
       <div
         class="
           flex flex-col
-          w-full
-          md:w-1/3
-          md:border-r
           border-gray-200
-          dark:border-gray-800
+          w-full
           px-4
+          md:border-r
+          md:w-1/3
+          dark:border-gray-800
         "
       >
-        <div class="p-2 flex flex-col">
-          <div class="w-full flex items-center justify-between">
-            <span class="text-xs text-gray-500 dark:text-gray-600 uppercase"
+        <div class="flex flex-col p-2">
+          <div class="flex w-full items-center justify-between">
+            <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
               >Total uTokens Minted</span
             >
           </div>
 
           <div
             class="
-              w-full
-              px-2
               flex
-              items-center
               space-x-6
               mt-2
+              w-full
+              px-2
               transition-all
               ease-in
               duration-150
+              items-center
             "
           >
             <div class="flex items-center">
@@ -88,14 +89,14 @@
           </div>
         </div>
         <div
-          class="border-b border-gray-200 dark:border-gray-800 my-2 -mx-2"
+          class="border-b border-gray-200 my-2 -mx-2 dark:border-gray-800"
         ></div>
-        <div class="p-2 flex flex-col">
-          <span class="text-xs text-gray-500 dark:text-gray-600 uppercase"
+        <div class="flex flex-col p-2">
+          <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
             >Total Value Locked</span
           >
           <div
-            class="font-medium text-gray-800 dark:text-gray-200 text-xl"
+            class="font-medium text-xl text-gray-800 dark:text-gray-200"
             :title="overview.tvl.toLocaleString()"
           >
             ${{ $numberFormatter(Number(overview.tvl), 1) }}
@@ -106,33 +107,33 @@
       <div
         class="
           flex flex-col
-          w-full
-          md:w-1/3
-          md:border-r
           border-gray-200
-          dark:border-gray-800
+          w-full
           px-4
+          md:border-r
+          md:w-1/3
+          dark:border-gray-800
         "
       >
-        <div class="flex items-center justify-between w-full">
-          <div class="p-2 flex flex-col">
-            <span class="text-xs text-gray-500 dark:text-gray-600 uppercase"
+        <div class="flex w-full items-center justify-between">
+          <div class="flex flex-col p-2">
+            <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
               >24H Volume</span
             >
             <div
-              class="font-medium text-gray-800 dark:text-gray-200 text-xl"
+              class="font-medium text-xl text-gray-800 dark:text-gray-200"
               :title="overview.dailyVolume.toLocaleString()"
             >
               ${{ $numberFormatter(overview.dailyVolume) }}
             </div>
           </div>
 
-          <div class="p-2 flex flex-col">
-            <span class="text-xs text-gray-500 dark:text-gray-600 uppercase"
+          <div class="flex flex-col p-2">
+            <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
               >Total Volume</span
             >
             <div
-              class="font-medium text-gray-800 dark:text-gray-200 text-xl"
+              class="font-medium text-xl text-gray-800 dark:text-gray-200"
               :title="overview.totalVolume.toLocaleString()"
             >
               ${{ $numberFormatter(overview.totalVolume) }}
@@ -141,21 +142,21 @@
         </div>
 
         <div
-          class="border-b border-gray-200 dark:border-gray-800 my-2 -mx-2"
+          class="border-b border-gray-200 my-2 -mx-2 dark:border-gray-800"
         ></div>
-        <div class="p-2 flex flex-col">
-          <span class="text-xs text-gray-500 dark:text-gray-600 uppercase"
+        <div class="flex flex-col p-2">
+          <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
             >Collatralization Ratio</span
           >
-          <div class="font-medium text-gray-800 dark:text-gray-200 text-xl">
+          <div class="font-medium text-xl text-gray-800 dark:text-gray-200">
             {{ overview.cRatio }}%
           </div>
         </div>
       </div>
 
-      <div class="flex flex-col w-full md:w-1/3 px-4">
-        <div class="px-2 w-full flex items-center justify-between">
-          <span class="text-xs text-gray-500 dark:text-gray-600 uppercase"
+      <div class="flex flex-col w-full px-4 md:w-1/3">
+        <div class="flex w-full px-2 items-center justify-between">
+          <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
             >Current Fees Pool</span
           >
           <button
@@ -169,26 +170,26 @@
             @click="ui.showFeesBreakdown = !ui.showFeesBreakdown"
           >
             <span v-if="!ui.showFeesBreakdown">View Details</span>
-            <i v-else class="fas fa-times text-xs"></i>
+            <i v-else class="text-xs fas fa-times"></i>
           </button>
         </div>
 
         <div
           v-if="ui.showFeesBreakdown"
           class="
+            flex
+            mt-4
             w-full
             px-2
-            flex
-            items-center
-            justify-between
-            mt-4
             transition-all
             ease-in
             duration-150
+            items-center
+            justify-between
           "
         >
           <div class="flex flex-col items-center justify-center">
-            <div class="text-lg font-medium text-gray-800 dark:text-gray-200">
+            <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
               ${{ Number(fees.staking) }}
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
@@ -197,7 +198,7 @@
           </div>
 
           <div class="flex flex-col items-center justify-center">
-            <div class="text-lg font-medium text-gray-800 dark:text-gray-200">
+            <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
               ${{ Number(fees.safu) }}
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
@@ -206,7 +207,7 @@
           </div>
 
           <div class="flex flex-col items-center justify-center">
-            <div class="text-lg font-medium text-gray-800 dark:text-gray-200">
+            <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
               ${{ Number(fees.devfund) }}
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
@@ -216,7 +217,7 @@
         </div>
 
         <div v-else class="px-2 transition-all ease-in duration-150">
-          <div class="text-2xl font-medium text-gray-800 dark:text-gray-200">
+          <div class="font-medium text-2xl text-gray-800 dark:text-gray-200">
             ${{
               (
                 Number(fees.staking) +
@@ -229,15 +230,15 @@
       </div>
     </div>
     <!-- 
-    <div class="ml-2 mt-1 w-auto inline-block cursor-pointer">
+    <div class="cursor-pointer mt-1 ml-2 w-auto inline-block">
       <span class="text-xs dark:text-white hover:border-b" @click="initOnMount"
         >Refresh All</span
       >
     </div> -->
 
     <div class="mt-4 md:mt-8">
-      <div class="w-full flex items-center justify-between py-2">
-        <p class="text-lg text-gray-800 dark:text-gray-200 font-medium p-2">
+      <div class="flex w-full py-2 items-center justify-between">
+        <p class="font-medium text-lg p-2 text-gray-800 dark:text-gray-200">
           Liquidity Pool Tokens
         </p>
 
@@ -245,40 +246,41 @@
           v-model="search"
           type="text"
           class="
-            px-4
+            border
+            rounded-lg
+            border-gray-200
+            text-sm
             py-2
+            px-4
+            focus:border-light-primary
+            appearance-none
+            focus:outline-none
             md:w-1/3
-            border border-gray-200
             dark:border-gray-800
             dark:bg-gray-900
             dark:text-gray-500
-            focus:border-light-primary
-            text-sm
-            rounded-lg
-            appearance-none
-            focus:outline-none
           "
           placeholder="Search token, address or exchange..."
         />
       </div>
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="min-w-full py-2 align-middle inline-block sm:px-6 lg:px-8">
           <div class="shadow overflow-hidden sm:rounded-lg">
-            <table class="min-w-full divide-y divide-gray-200">
+            <table class="divide-y min-w-full divide-gray-200">
               <thead>
                 <tr class="bg-white dark:bg-gray-900">
                   <th
                     class="
-                      px-6
-                      py-3
-                      bg-gray-50
-                      dark:bg-gray-900
-                      text-left text-xs
-                      leading-4
                       font-medium
-                      text-gray-500
-                      uppercase
+                      bg-gray-50
+                      text-left text-xs
                       tracking-wider
+                      py-3
+                      px-6
+                      text-gray-500
+                      leading-4
+                      uppercase
+                      dark:bg-gray-900
                     "
                   >
                     Name
@@ -286,16 +288,16 @@
 
                   <th
                     class="
-                      px-6
-                      py-3
-                      bg-gray-50
-                      dark:bg-gray-900
-                      text-left text-xs
-                      leading-4
                       font-medium
-                      text-gray-500
-                      uppercase
+                      bg-gray-50
+                      text-left text-xs
                       tracking-wider
+                      py-3
+                      px-6
+                      text-gray-500
+                      leading-4
+                      uppercase
+                      dark:bg-gray-900
                     "
                     title="Unbound Total Value Locked"
                   >
@@ -303,16 +305,16 @@
                   </th>
                   <th
                     class="
-                      px-6
-                      py-3
-                      bg-gray-50
-                      dark:bg-gray-900
-                      text-left text-xs
-                      leading-4
                       font-medium
-                      text-gray-500
-                      uppercase
+                      bg-gray-50
+                      text-left text-xs
                       tracking-wider
+                      py-3
+                      px-6
+                      text-gray-500
+                      leading-4
+                      uppercase
+                      dark:bg-gray-900
                     "
                     title="Uniswap Total Value Locked"
                   >
@@ -320,37 +322,37 @@
                   </th>
                   <th
                     class="
-                      px-6
-                      py-3
-                      bg-gray-50
-                      dark:bg-gray-900
-                      text-left text-xs
-                      leading-4
                       font-medium
-                      text-gray-500
-                      uppercase
+                      bg-gray-50
+                      text-left text-xs
                       tracking-wider
+                      py-3
+                      px-6
+                      text-gray-500
+                      leading-4
+                      uppercase
+                      dark:bg-gray-900
                     "
                   >
                     Funding Rate
                   </th>
                   <th
                     class="
-                      px-6
-                      py-3
-                      bg-gray-50
-                      dark:bg-gray-900
-                      text-left text-xs
-                      leading-4
                       font-medium
-                      text-gray-500
-                      uppercase
+                      bg-gray-50
+                      text-left text-xs
                       tracking-wider
+                      py-3
+                      px-6
+                      text-gray-500
+                      leading-4
+                      uppercase
+                      dark:bg-gray-900
                     "
                   >
                     Minting Fee
                   </th>
-                  <th class="px-6 py-3 bg-gray-50 dark:bg-gray-900"></th>
+                  <th class="bg-gray-50 py-3 px-6 dark:bg-gray-900"></th>
                 </tr>
               </thead>
               <tbody
@@ -358,7 +360,7 @@
                 class="bg-white bg-opacity-75 dark:bg-gray-900"
               >
                 <tr v-for="(data, i) in searchResult" :key="i">
-                  <td class="px-6 py-4 whitespace-no-wrap">
+                  <td class="py-4 px-6 whitespace-no-wrap">
                     <div class="flex items-center">
                       <div class="flex-shrink-0 h-8 w-8">
                         <double-logo
@@ -369,10 +371,9 @@
                       <div class="ml-4">
                         <div
                           class="
-                            text-sm
-                            leading-5
                             font-medium
-                            text-gray-900
+                            text-sm text-gray-900
+                            leading-5
                             dark:text-gray-200
                           "
                         >
@@ -380,9 +381,8 @@
                         </div>
                         <div
                           class="
-                            text-sm
+                            text-sm text-gray-500
                             leading-5
-                            text-gray-500
                             dark:text-gray-700
                           "
                         >
@@ -392,44 +392,44 @@
                     </div>
                   </td>
 
-                  <td class="px-6 py-4 whitespace-no-wrap">
+                  <td class="py-4 px-6 whitespace-no-wrap">
                     <div
-                      class="text-sm leading-5 text-gray-900 dark:text-gray-200"
+                      class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                       :title="data.tvl.toLocaleString()"
                     >
                       {{ $numberFormatter(data.tvl, 1) }}
                     </div>
                   </td>
-                  <td class="px-6 py-4 whitespace-no-wrap">
+                  <td class="py-4 px-6 whitespace-no-wrap">
                     <div
-                      class="text-sm leading-5 text-gray-900 dark:text-gray-200"
+                      class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                       :title="data.uniswapTvl.toLocaleString()"
                     >
                       {{ $numberFormatter(data.uniswapTvl, 1) }}
                     </div>
                   </td>
-                  <td class="px-6 py-4 whitespace-no-wrap">
+                  <td class="py-4 px-6 whitespace-no-wrap">
                     <div
-                      class="text-sm leading-5 text-gray-900 dark:text-gray-200"
+                      class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                     >
                       {{ data.ltv }}%
                     </div>
                   </td>
-                  <td class="px-6 py-4 whitespace-no-wrap">
+                  <td class="py-4 px-6 whitespace-no-wrap">
                     <div
-                      class="text-sm leading-5 text-gray-900 dark:text-gray-200"
+                      class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                     >
                       {{ Number((data.mintingFee / 1e6) * 100) }}%
                     </div>
                   </td>
                   <td
                     class="
-                      px-6
-                      py-4
-                      whitespace-no-wrap
-                      text-right text-sm
-                      leading-5
                       font-medium
+                      text-right text-sm
+                      py-4
+                      px-6
+                      leading-5
+                      whitespace-no-wrap
                     "
                   >
                     <nuxt-link to="/mint">
@@ -437,13 +437,13 @@
                         type="button"
                         class="
                           bg-light-primary
-                          dark:bg-dark-primary
-                          text-light-primary
-                          dark:text-white
-                          bg-opacity-25
-                          px-6
-                          py-1
                           rounded
+                          bg-opacity-25
+                          text-light-primary
+                          py-1
+                          px-6
+                          dark:bg-dark-primary
+                          dark:text-white
                           appearance-none
                           focus:outline-none
                         "
@@ -460,37 +460,37 @@
                 class="bg-white dark:bg-gray-900"
               >
                 <tr>
-                  <td class="px-6 py-4 whitespace-no-wrap">
+                  <td class="py-4 px-6 whitespace-no-wrap">
                     <content-loader
                       :height="100"
                       :primary-opacity="0.25"
                     ></content-loader>
                   </td>
-                  <td class="px-6 py-4 whitespace-no-wrap">
+                  <td class="py-4 px-6 whitespace-no-wrap">
                     <content-loader
                       :height="48"
                       :primary-opacity="0.25"
                     ></content-loader>
                   </td>
-                  <td class="px-6 py-4 whitespace-no-wrap">
+                  <td class="py-4 px-6 whitespace-no-wrap">
                     <content-loader
                       :height="32"
                       :primary-opacity="0.25"
                     ></content-loader>
                   </td>
-                  <td class="px-6 py-4 whitespace-no-wrap">
+                  <td class="py-4 px-6 whitespace-no-wrap">
                     <content-loader
                       :height="48"
                       :primary-opacity="0.25"
                     ></content-loader>
                   </td>
-                  <td class="px-6 py-4 whitespace-no-wrap">
+                  <td class="py-4 px-6 whitespace-no-wrap">
                     <content-loader
                       :height="48"
                       :primary-opacity="0.25"
                     ></content-loader>
                   </td>
-                  <td class="px-6 py-4 whitespace-no-wrap"></td>
+                  <td class="py-4 px-6 whitespace-no-wrap"></td>
                 </tr>
               </tbody>
 
@@ -585,7 +585,6 @@ export default Vue.extend({
     },
   },
   mounted() {
-    // this.provider = new ethers.providers.JsonRpcProvider(config.infura_url)
     this.getPoolTokens()
     this.getAnalyticsData()
     this.getFees()
@@ -603,7 +602,7 @@ export default Vue.extend({
     },
 
     async getFees() {
-      const {provider, signer} = getProvider()
+      const { provider, signer } = getProvider()
       const unboundToken = await new ethers.Contract(
         contracts.unboundDai,
         UNBOUND_DOLLAR_ABI,
@@ -636,7 +635,7 @@ export default Vue.extend({
     },
 
     async getLoanRatioPerLPT(poolToken: any) {
-      const {provider, signer} = getProvider()
+      const { provider, signer } = getProvider()
       const contract = await new ethers.Contract(
         poolToken.address,
         UNISWAP_LPT_ABI,
@@ -709,11 +708,7 @@ export default Vue.extend({
               const price = await getLPTPrice(ev)
               // @ts-ignore
               const tvl = Number(lockedLPT * price)
-              const uniswapTvl = await getUniswapTvl(
-                ev.uniswapAddress,
-                // @ts-ignore
-                this.provider
-              )
+              const uniswapTvl = await getUniswapTvl(ev.uniswapAddress)
 
               return {
                 ...ev,

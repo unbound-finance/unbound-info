@@ -12,7 +12,7 @@ import { getProvider } from '~/plugins/web3provider'
 
 const getBalanceOfToken = async (tokenAddress) => {
   const { provider, signer } = getProvider()
-  const contract = await new ethers.Contract(tokenAddress, ERC20ABI, signer)
+  const contract = await new ethers.Contract(tokenAddress, ERC20ABI, provider)
   const userAddress = signer.getAddress()
   const getBalance = await contract.balanceOf(userAddress)
   const balance = ethers.utils.formatEther(getBalance.toString())
@@ -25,7 +25,7 @@ const checkLoan = async (LLCAddress, uTokenAddress) => {
   const contract = await new ethers.Contract(
     uTokenAddress,
     UnboundDollarABI,
-    signer
+    provider
   )
   const userAddress = signer.getAddress()
   const getBalance = await contract.checkLoan(userAddress, LLCAddress)
@@ -37,7 +37,7 @@ const checkLoan = async (LLCAddress, uTokenAddress) => {
 const getLockedLPT = async (LLCAddress) => {
   try {
     const { provider, signer } = getProvider()
-    const contract = new ethers.Contract(LLCAddress, UnboundLLCABI, signer)
+    const contract = new ethers.Contract(LLCAddress, UnboundLLCABI, provider)
     const userAddress = signer.getAddress()
     const getLocked = await contract.tokensLocked(userAddress)
     const locked = ethers.utils.formatEther(getLocked.toString())
@@ -53,7 +53,7 @@ const getLockedLPT = async (LLCAddress) => {
 const getCR = async (LLCAddress) => {
   try {
     const { provider, signer } = getProvider()
-    const contract = new ethers.Contract(LLCAddress, UnboundLLCABI, signer)
+    const contract = new ethers.Contract(LLCAddress, UnboundLLCABI, provider)
     const getCR = await contract.CREnd()
     return getCR
   } catch (error) {
@@ -67,7 +67,7 @@ const getTotalLockedLPT = async (LPTAddress, LLCAddress) => {
     const contract = await new ethers.Contract(
       LPTAddress,
       UniswapLPTABI,
-      signer
+      provider
     )
     const getLocked = await contract.balanceOf(LLCAddress)
     const locked = ethers.utils.formatEther(getLocked)
@@ -83,7 +83,7 @@ const getLPTPrice = async (poolToken) => {
   const contract = await new ethers.Contract(
     poolToken.address,
     UniswapLPTABI,
-    signer
+    provider
   )
 
   const reserve = await contract.getReserves()

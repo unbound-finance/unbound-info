@@ -9,12 +9,12 @@ export const getTotalLiquidity = async () => {
   const und = new ethers.Contract(
     contracts.UNDUniswapPool,
     UNISWAP_LPT_ABI,
-    signer
+    provider
   )
   const ueth = new ethers.Contract(
     contracts.uETHUniswapPool,
     UNISWAP_LPT_ABI,
-    signer
+    provider
   )
   const undReserve = await und.getReserves()
   const uethReserve = await ueth.getReserves()
@@ -43,13 +43,13 @@ export const getCRatio = async () => {
   const und = new ethers.Contract(
     contracts.unboundDai,
     UNBOUND_DOLLAR_ABI,
-    signer
+    provider
   )
 
   const ueth = new ethers.Contract(
     contracts.unboundEth,
     UNBOUND_DOLLAR_ABI,
-    signer
+    provider
   )
 
   const totalUND = await und.totalSupply()
@@ -62,11 +62,10 @@ export const getCRatio = async () => {
   const totalLockedLPTValue = (
     await Promise.all(
       supportedPoolTokens.map(async (poolToken) => {
-        const LPTPrice = await getLPTPrice(poolToken, web3ModalProvider)
+        const LPTPrice = await getLPTPrice(poolToken)
         const lockedLPT = await getTotalLockedLPT(
           poolToken.address,
-          poolToken.llcAddress,
-          web3ModalProvider
+          poolToken.llcAddress
         )
         return Number(LPTPrice * lockedLPT)
       })
@@ -82,11 +81,10 @@ export const getTVL = async () => {
   const totalLockedLPTValue = (
     await Promise.all(
       supportedPoolTokens.map(async (poolToken) => {
-        const LPTPrice = await getLPTPrice(poolToken, web3ModalProvider)
+        const LPTPrice = await getLPTPrice(poolToken)
         const lockedLPT = await getTotalLockedLPT(
           poolToken.address,
-          poolToken.llcAddress,
-          web3ModalProvider
+          poolToken.llcAddress
         )
         return Number(LPTPrice * lockedLPT)
       })
@@ -103,7 +101,7 @@ export const getFeesAccrued = async () => {
   const unboundToken = await new ethers.Contract(
     contracts.unboundDai,
     UNBOUND_DOLLAR_ABI,
-    signer
+    provider
   )
 
   // get total fee stored in the contract

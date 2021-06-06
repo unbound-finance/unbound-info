@@ -4,18 +4,12 @@ import { getProvider } from '~/plugins/web3provider'
 import { UNISWAP_LPT_ABI, UNISWAP_ROUTER_ABI, contracts } from '~/constants'
 import { toFixed } from '~/utils'
 
-const addLiquidity = async (
-  tokenA,
-  tokenB,
-  amountA,
-  amountB,
-  web3ModalProvider = window.ethereum
-) => {
-  const {provider, signer} = getProvider()
+const addLiquidity = async (tokenA, tokenB, amountA, amountB) => {
+  const { provider, signer } = getProvider()
   const contract = new ethers.Contract(
     contracts.uniswapRouter,
     UNISWAP_ROUTER_ABI,
-    signer
+    provider
   )
   const formatAmountA = toFixed(amountA * 1e18).toString()
   const formatAmountB = toFixed(amountB * 1e18).toString()
@@ -203,31 +197,25 @@ const addLiquidity = async (
 //   // )
 // }
 
-const getPoolTokenBalance = async (
-  address,
-  web3ModalProvider = window.ethereum
-) => {
-  const {provider, signer} = getProvider()
+const getPoolTokenBalance = async (address) => {
+  const { provider, signer } = getProvider()
   const userAddress = signer.getAddress()
   const poolTokenContract = await new ethers.Contract(
     address,
     UNISWAP_LPT_ABI,
-    signer
+    provider
   )
   const balance = poolTokenContract.balanceOf(userAddress)
   return balance
 }
 
-const getPoolTokenReserves = async (
-  address,
-  web3ModalProvider = window.ethereum
-) => {
+const getPoolTokenReserves = async (address) => {
   try {
-    const {provider, signer} = getProvider()
+    const { provider, signer } = getProvider()
     const poolTokenContract = new ethers.Contract(
       address,
       UNISWAP_LPT_ABI,
-      signer
+      provider
     )
     const reserves = await poolTokenContract.getReserves()
     return {
@@ -237,37 +225,22 @@ const getPoolTokenReserves = async (
   } catch (error) {}
 }
 
-const getPoolTokenTotalSupply = async (
-  address,
-  web3ModalProvider = window.ethereum
-) => {
-  const {provider, signer} = getProvider()
+const getPoolTokenTotalSupply = async (address) => {
+  const { provider, signer } = getProvider()
   const poolTokenContract = new ethers.Contract(
     address,
     UNISWAP_LPT_ABI,
-    signer
+    provider
   )
   const totalSupply = await poolTokenContract.totalSupply()
   return totalSupply
 }
 
-const getAmountOfLockedTokens = async (
-  address,
-  web3ModalProvider = window.ethereum
-) => {
+const getAmountOfLockedTokens = async (address) => {
   try {
-    const poolTokenTotalSupply = await getPoolTokenTotalSupply(
-      address,
-      web3ModalProvider
-    )
-    const poolTokenBalance = await getPoolTokenBalance(
-      address,
-      web3ModalProvider
-    )
-    const poolTokenReserves = await getPoolTokenReserves(
-      address,
-      web3ModalProvider
-    )
+    const poolTokenTotalSupply = await getPoolTokenTotalSupply(address)
+    const poolTokenBalance = await getPoolTokenBalance(address)
+    const poolTokenReserves = await getPoolTokenReserves(address)
     const poolTokenRatio =
       poolTokenBalance.toString() / poolTokenTotalSupply.toString()
 
