@@ -546,7 +546,7 @@ export default Vue.extend({
         showFeesBreakdown: false,
         showLiquidityBreakdown: false,
       },
-      poolTokens: null,
+      poolTokens: [],
       search: '',
       overview: {
         liquidity: {
@@ -572,16 +572,15 @@ export default Vue.extend({
       const search = this.search.trim()
       if (search) {
         const regex = new RegExp(search, 'ig')
-        // @ts-ignore
-        const result = this.poolTokens.filter(
+        return this.poolTokens.filter(
           ({ name, address, exchange }: any) =>
             regex.test(name) ||
             (search.slice(0, 2).toLowerCase() === '0x' &&
               regex.test(address)) ||
             regex.test(exchange)
         )
-        // return result //Error on this line. Breaks everything
       }
+      return (this as any).poolTokens
     },
   },
   mounted() {
@@ -694,6 +693,7 @@ export default Vue.extend({
     },
 
     async getPoolTokens() {
+      console.log('getPoolTokens started')
       try {
         // @ts-ignore
         this.poolTokens = (
@@ -722,10 +722,13 @@ export default Vue.extend({
             })
           )
         ).sort(dynamicsort('tvl', 'desc'))
+        console.log(this.poolTokens)
         // console.log(this.poolTokens)
       } catch (error) {
-        throw new Error('Something went wrong!' + error)
+        console.log('getPoolTokens error')
+        throw new Error('Something went wrong! ' + error)
       }
+      console.log('getPoolTokens ended')
     },
   },
   // apollo: {
