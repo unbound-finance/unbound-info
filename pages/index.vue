@@ -55,9 +55,17 @@
               />
               <div class="flex flex-col">
                 <div class="font-medium text-gray-800 dark:text-gray-200">
-                  {{
-                    $numberFormatter(Number(overview.liquidity.UNDLiquidity), 1)
-                  }}
+                  <span v-if="overview.liquidity.UNDLiquidity != 0">
+                    {{
+                      $numberFormatter(
+                        Number(overview.liquidity.UNDLiquidity),
+                        1
+                      )
+                    }}
+                  </span>
+                  <span v-else>
+                    <content-loader :height="100" :primary-opacity="0.4" />
+                  </span>
                 </div>
                 <span class="text-xs text-gray-500 dark:text-gray-600"
                   >UND</span
@@ -74,12 +82,17 @@
               />
               <div class="flex flex-col">
                 <div class="font-medium text-gray-800 dark:text-gray-200">
-                  {{
-                    $numberFormatter(
-                      Number(overview.liquidity.uETHLiquidity),
-                      1
-                    )
-                  }}
+                  <span v-if="overview.liquidity.uETHLiquidity != 0">
+                    {{
+                      $numberFormatter(
+                        Number(overview.liquidity.uETHLiquidity),
+                        1
+                      )
+                    }}
+                  </span>
+                  <span v-else>
+                    <content-loader :height="100" :primary-opacity="0.4" />
+                  </span>
                 </div>
                 <span class="text-xs text-gray-500 dark:text-gray-600"
                   >uETH</span
@@ -99,7 +112,12 @@
             class="font-medium text-xl text-gray-800 dark:text-gray-200"
             :title="overview.tvl.toLocaleString()"
           >
-            ${{ $numberFormatter(Number(overview.tvl), 1) }}
+            <span v-if="overview.tvl != 0">
+              ${{ $numberFormatter(Number(overview.tvl), 1) }}
+            </span>
+            <span v-else>
+              <content-loader :height="15" :primary-opacity="0.4" />
+            </span>
           </div>
         </div>
       </div>
@@ -124,7 +142,12 @@
               class="font-medium text-xl text-gray-800 dark:text-gray-200"
               :title="overview.dailyVolume.toLocaleString()"
             >
-              ${{ $numberFormatter(overview.dailyVolume) }}
+              <span v-if="overview.dailyVolume != 0">
+                ${{ $numberFormatter(overview.dailyVolume) }}
+              </span>
+              <span v-else>
+                <content-loader :height="40" :primary-opacity="0.4" />
+              </span>
             </div>
           </div>
 
@@ -136,7 +159,12 @@
               class="font-medium text-xl text-gray-800 dark:text-gray-200"
               :title="overview.totalVolume.toLocaleString()"
             >
-              ${{ $numberFormatter(overview.totalVolume) }}
+              <span v-if="overview.totalVolume != 0">
+                ${{ $numberFormatter(overview.totalVolume) }}
+              </span>
+              <span v-else>
+                <content-loader :height="40" :primary-opacity="0.4" />
+              </span>
             </div>
           </div>
         </div>
@@ -149,7 +177,10 @@
             >Collatralization Ratio</span
           >
           <div class="font-medium text-xl text-gray-800 dark:text-gray-200">
-            {{ overview.cRatio }}%
+            <span v-if="overview.cRatio != 0"> {{ overview.cRatio }}% </span>
+            <span v-else>
+              <content-loader :height="15" :primary-opacity="0.4" />
+            </span>
           </div>
         </div>
       </div>
@@ -218,13 +249,26 @@
 
         <div v-else class="px-2 transition-all ease-in duration-150">
           <div class="font-medium text-2xl text-gray-800 dark:text-gray-200">
-            ${{
-              (
-                Number(fees.staking) +
-                Number(fees.safu) +
-                Number(fees.devfund)
-              ).toLocaleString()
-            }}
+            <span
+              v-if="
+                (
+                  Number(fees.staking) +
+                  Number(fees.safu) +
+                  Number(fees.devfund)
+                ).toLocaleString() != 0
+              "
+            >
+              ${{
+                (
+                  Number(fees.staking) +
+                  Number(fees.safu) +
+                  Number(fees.devfund)
+                ).toLocaleString()
+              }}
+            </span>
+            <span v-else>
+              <content-loader :height="15" :primary-opacity="0.4" />
+            </span>
           </div>
         </div>
       </div>

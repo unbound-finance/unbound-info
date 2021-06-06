@@ -7,14 +7,46 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'analytics',
+    title: 'Analytics | Unbound Finance',
     htmlAttrs: {
       lang: 'en',
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      {
+        hid: 'title',
+        name: 'title',
+        content: 'Analytics | Unbound Finance',
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Analytics | The DeFi Treasury For Liquidity Pool Tokens',
+      },
+      {
+        hid: 'apple-mobile-web-app-title',
+        name: 'apple-mobile-web-app-title',
+        content: 'Analytics | Unbound Finance',
+      },
+      {
+        hid: 'og:title',
+        name: 'og:title',
+        property: 'og:title',
+        content: 'Analytics | Unbound Finance',
+      },
+      {
+        hid: 'og:site_name',
+        name: 'og:site_name',
+        property: 'og:site_name',
+        content: 'Analytics | Unbound Finance',
+      },
+      {
+        hid: 'og:description',
+        name: 'og:description',
+        property: 'og:description',
+        content: 'Analytics | The DeFi Treasury For Liquidity Pool Tokens',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
@@ -28,7 +60,11 @@ export default {
   css: ['@/assets/css/tailwind.css', '@/assets/css/loading-dots.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/ga.js', '@/plugins/numberFormatter.js', '@/plugins/web3provider.js'],
+  plugins: [
+    '@/plugins/ga.js',
+    '@/plugins/numberFormatter.js',
+    '@/plugins/web3provider.js',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -49,7 +85,8 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'https://api.thegraph.com/subgraphs/name/furuta/und-kovan',
+        httpEndpoint:
+          'https://api.thegraph.com/subgraphs/name/furuta/und-kovan',
       },
     },
   },
