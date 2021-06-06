@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import { getProvider } from '~/plugins/web3provider'
 
 import { UNISWAP_LPT_ABI, UNISWAP_ROUTER_ABI, contracts } from '~/constants'
 import { toFixed } from '~/utils'
@@ -10,8 +11,7 @@ const addLiquidity = async (
   amountB,
   web3ModalProvider = window.ethereum
 ) => {
-  const provider = new ethers.providers.Web3Provider(web3ModalProvider)
-  const signer = provider.getSigner()
+  const {provider, signer} = getProvider()
   const contract = new ethers.Contract(
     contracts.uniswapRouter,
     UNISWAP_ROUTER_ABI,
@@ -207,8 +207,7 @@ const getPoolTokenBalance = async (
   address,
   web3ModalProvider = window.ethereum
 ) => {
-  const provider = new ethers.providers.Web3Provider(web3ModalProvider)
-  const signer = provider.getSigner()
+  const {provider, signer} = getProvider()
   const userAddress = signer.getAddress()
   const poolTokenContract = await new ethers.Contract(
     address,
@@ -224,8 +223,7 @@ const getPoolTokenReserves = async (
   web3ModalProvider = window.ethereum
 ) => {
   try {
-    const provider = new ethers.providers.Web3Provider(web3ModalProvider)
-    const signer = provider.getSigner()
+    const {provider, signer} = getProvider()
     const poolTokenContract = new ethers.Contract(
       address,
       UNISWAP_LPT_ABI,
@@ -243,8 +241,7 @@ const getPoolTokenTotalSupply = async (
   address,
   web3ModalProvider = window.ethereum
 ) => {
-  const provider = new ethers.providers.Web3Provider(web3ModalProvider)
-  const signer = provider.getSigner()
+  const {provider, signer} = getProvider()
   const poolTokenContract = new ethers.Contract(
     address,
     UNISWAP_LPT_ABI,

@@ -28,7 +28,7 @@ export default {
   css: ['@/assets/css/tailwind.css', '@/assets/css/loading-dots.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/ga.js', '@/plugins/numberFormatter.js'],
+  plugins: ['@/plugins/ga.js', '@/plugins/numberFormatter.js', '@/plugins/web3provider.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

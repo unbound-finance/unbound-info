@@ -1,13 +1,14 @@
 import { ethers } from 'ethers'
 
+import { getProvider } from '~/plugins/web3provider'
 import ERC20ABI from '~/constants/abis/ERC20'
+
 
 const getTokenBalance = async (
   tokenAddress,
   web3ModalProvider = window.ethereum
 ) => {
-  const provider = new ethers.providers.Web3Provider(web3ModalProvider)
-  const signer = provider.getSigner()
+  const {provider, signer} = getProvider()
   try {
     const userAddress = signer.getAddress()
     const poolTokenContract = await new ethers.Contract(
@@ -33,8 +34,7 @@ const getDecimals = async (
   tokenAddress,
   web3ModalProvider = window.ethereum
 ) => {
-  const provider = new ethers.providers.Web3Provider(web3ModalProvider)
-  const signer = provider.getSigner()
+  const {provider, signer} = getProvider()
   const token = new ethers.Contract(tokenAddress, ERC20ABI, signer)
   const decimals = await token.decimals()
   return decimals.toString()

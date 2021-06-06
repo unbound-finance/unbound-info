@@ -2,12 +2,12 @@ import { ethers } from 'ethers'
 import { UNISWAP_LPT_ABI, UNBOUND_DOLLAR_ABI, contracts } from '~/constants'
 import { getEthPrice, getLPTPrice, getTotalLockedLPT } from '~/mixins/info'
 import supportedPoolTokens from '~/configs/supportedPoolTokens'
+import { getProvider } from '~/plugins/web3provider'
 
 export const getTotalLiquidity = async (
   web3ModalProvider = window.ethereum
 ) => {
-  const provider = new ethers.providers.Web3Provider(web3ModalProvider)
-  const signer = provider.getSigner()
+  const { provider, signer } = getProvider()
   const und = new ethers.Contract(
     contracts.UNDUniswapPool,
     UNISWAP_LPT_ABI,
@@ -40,8 +40,7 @@ export const getDailyVolume = async () => {}
 export const getMintingFees = async () => {}
 
 export const getCRatio = async (web3ModalProvider = window.ethereum) => {
-  const provider = new ethers.providers.Web3Provider(web3ModalProvider)
-  const signer = provider.getSigner()
+  const { provider, signer } = getProvider()
   // Get total UND and uETH minted
   const und = new ethers.Contract(
     contracts.unboundDai,
