@@ -55,7 +55,7 @@
               />
               <div class="flex flex-col">
                 <div class="font-medium text-gray-800 dark:text-gray-200">
-                  <span v-if="overview.liquidity.UNDLiquidity != 0">
+                  <span v-if="!loading.overview.liquidity.UNDLiquidity">
                     {{
                       $numberFormatter(
                         Number(overview.liquidity.UNDLiquidity),
@@ -82,7 +82,7 @@
               />
               <div class="flex flex-col">
                 <div class="font-medium text-gray-800 dark:text-gray-200">
-                  <span v-if="overview.liquidity.uETHLiquidity != 0">
+                  <span v-if="!loading.overview.liquidity.uETHLiquidity">
                     {{
                       $numberFormatter(
                         Number(overview.liquidity.uETHLiquidity),
@@ -112,7 +112,7 @@
             class="font-medium text-xl text-gray-800 dark:text-gray-200"
             :title="overview.tvl.toLocaleString()"
           >
-            <span v-if="overview.tvl != 0">
+            <span v-if="!loading.overview.tvl">
               ${{ $numberFormatter(Number(overview.tvl), 1) }}
             </span>
             <span v-else>
@@ -142,7 +142,7 @@
               class="font-medium text-xl text-gray-800 dark:text-gray-200"
               :title="overview.dailyVolume.toLocaleString()"
             >
-              <span v-if="overview.dailyVolume != 0">
+              <span v-if="!loading.overview.dailyVolume">
                 ${{ $numberFormatter(overview.dailyVolume) }}
               </span>
               <span v-else>
@@ -159,7 +159,7 @@
               class="font-medium text-xl text-gray-800 dark:text-gray-200"
               :title="overview.totalVolume.toLocaleString()"
             >
-              <span v-if="overview.totalVolume != 0">
+              <span v-if="!loading.overview.totalVolume">
                 ${{ $numberFormatter(overview.totalVolume) }}
               </span>
               <span v-else>
@@ -177,7 +177,9 @@
             >Collatralization Ratio</span
           >
           <div class="font-medium text-xl text-gray-800 dark:text-gray-200">
-            <span v-if="overview.cRatio != 0"> {{ overview.cRatio }}% </span>
+            <span v-if="!loading.overview.cRatio">
+              {{ overview.cRatio }}%
+            </span>
             <span v-else>
               <content-loader :height="15" :primary-opacity="0.4" />
             </span>
@@ -221,7 +223,12 @@
         >
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
-              ${{ Number(fees.staking) }}
+              <span v-if="!loading.fees">
+                ${{ Number(fees.staking) }}
+              </span>
+              <span class="text-xs" v-else>
+                Loading...
+              </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
               >Staker Fees</span
@@ -230,7 +237,10 @@
 
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
-              ${{ Number(fees.safu) }}
+              <span v-if="!loading.fees"> ${{ Number(fees.safu) }} </span>
+              <span class="text-xs" v-else>
+                Loading...
+              </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
               >SAFU Fund</span
@@ -239,7 +249,12 @@
 
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
-              ${{ Number(fees.devfund) }}
+              <span v-if="!loading.fees">
+                ${{ Number(fees.devfund) }}
+              </span>
+              <span class="text-xs" v-else>
+                Loading...
+              </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
               >Dev Fund</span
@@ -251,11 +266,7 @@
           <div class="font-medium text-2xl text-gray-800 dark:text-gray-200">
             <span
               v-if="
-                (
-                  Number(fees.staking) +
-                  Number(fees.safu) +
-                  Number(fees.devfund)
-                ).toLocaleString() != 0
+                !loading.fees
               "
             >
               ${{
@@ -608,7 +619,19 @@ export default Vue.extend({
         devfund: '',
         safu: '',
       },
-      graphQLData: null,
+      loading: {
+        overview: {
+          liquidity: {
+            UNDLiquidity: false,
+            uETHLiquidity: false,
+          },
+          dailyVolume: false,
+          totalVolume: false,
+          cRatio: false,
+          tvl: false,
+        },
+        fees: false,
+      },
     }
   },
   computed: {
@@ -635,17 +658,43 @@ export default Vue.extend({
   },
   methods: {
     async getAnalyticsData() {
+      this.loading.overview.liquidity.UNDLiquidity = true
+      this.loading.overview.liquidity.uETHLiquidity = true
+      this.loading.overview.cRatio = true
+      this.loading.overview.tvl = true
+      this.loading.overview.dailyVolume = true
+      this.loading.overview.totalVolume = true
+
       const liquidity = await getTotalLiquidity()
       this.overview.liquidity.total = liquidity.total
       this.overview.liquidity.UNDLiquidity = liquidity.undLiquidity
+
+      this.loading.overview.liquidity.UNDLiquidity = false
+
       this.overview.liquidity.uETHLiquidity = liquidity.uethLiquidity
+
+      this.loading.overview.liquidity.uETHLiquidity = false
+
       this.overview.cRatio = +(await getCRatio())
+
+      this.loading.overview.cRatio = false
+
       this.overview.tvl = +(await getTVL())
+
+      this.loading.overview.tvl = false
+
       this.overview.dailyVolume = await getDailyVolume()
+
+      this.loading.overview.dailyVolume = false
+
       this.overview.totalVolume = await getTotalVolume()
+
+      this.loading.overview.totalVolume = false
     },
 
     async getFees() {
+      this.loading.fees = true
+
       const { provider, signer } = getProvider()
       const unboundToken = await new ethers.Contract(
         contracts.unboundDai,
@@ -676,6 +725,8 @@ export default Vue.extend({
         (remainingFee - (remainingFee * safuSharesOfStoredFee) / 100) /
         1e18
       ).toFixed(2)
+
+      this.loading.fees = false
     },
 
     async getLoanRatioPerLPT(poolToken: any) {
