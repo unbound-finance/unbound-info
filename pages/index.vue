@@ -606,7 +606,7 @@ export default Vue.extend({
       const unboundToken = await new ethers.Contract(
         contracts.unboundDai,
         UNBOUND_DOLLAR_ABI,
-        signer
+        provider
       )
 
       // get total fee stored in the contract
@@ -639,7 +639,7 @@ export default Vue.extend({
       const contract = await new ethers.Contract(
         poolToken.address,
         UNISWAP_LPT_ABI,
-        signer
+        provider
       )
       const reserve = await contract.getReserves()
       const LPTTotalSupply = await contract.totalSupply()
