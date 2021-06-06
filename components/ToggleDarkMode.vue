@@ -1,6 +1,6 @@
 <template>
   <button
-    class="w-8 h-8 flex items-center justify-center rounded bg-gray-300 dark:bg-gray-700 focus:outline-none"
+    class="w-8 h-8 flex items-center justify-center rounded bg-gray-50 dark:bg-gray-700 focus:outline-none"
     @click="toggleMode"
   >
     <img

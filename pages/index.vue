@@ -228,7 +228,7 @@
         </div>
       </div>
     </div>
-<!-- 
+    <!-- 
     <div class="ml-2 mt-1 w-auto inline-block cursor-pointer">
       <span class="text-xs dark:text-white hover:border-b" @click="initOnMount"
         >Refresh All</span
@@ -513,9 +513,33 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import gql from 'graphql-tag'
+import { ethers } from 'ethers'
+import config from '~/globalConfig'
+// import gql from 'graphql-tag'
+
+// @ts-ignore
+import { ContentLoader } from 'vue-content-loader'
+
+import supportedPoolTokens from '~/configs/supportedPoolTokens'
+
+import { UNISWAP_LPT_ABI, UNBOUND_DOLLAR_ABI, contracts } from '~/constants'
+
+import { getDecimals } from '~/mixins/ERC20'
+import { getLLC } from '~/mixins/valuator'
+import {
+  getTotalLockedLPT,
+  getLPTPrice,
+  getUniswapTvl,
+  getTotalVolume,
+  getDailyVolume,
+} from '~/mixins/info'
+import { getTotalLiquidity, getCRatio, getTVL } from '~/mixins/analytics'
+import { dynamicsort } from '~/utils'
 
 export default Vue.extend({
+  components: {
+    ContentLoader,
+  },
   data() {
     return {
       ui: {
@@ -540,36 +564,187 @@ export default Vue.extend({
         devfund: '',
         safu: '',
       },
-      web3ModalProvider: null,
-      checkForProvider: null,
+      provider: new ethers.providers.JsonRpcProvider(config.infura_url),
       graphQLData: null,
     }
   },
-  apollo: {
-    graphQLData: {
-      query: gql`
-        {
-          alls {
-            lockUSD
-            unlockUSD
-          }
+  mounted() {
+    // this.provider = new ethers.providers.JsonRpcProvider(config.infura_url)
+    this.getPoolTokens()
+    this.getAnalyticsData()
+    this.getFees()
+  },
+  methods: {
+    async getAnalyticsData() {
+      const liquidity = await getTotalLiquidity(this.provider)
+      this.overview.liquidity.total = liquidity.total
+      this.overview.liquidity.UNDLiquidity = liquidity.undLiquidity
+      this.overview.liquidity.uETHLiquidity = liquidity.uethLiquidity
+      this.overview.cRatio = +(await getCRatio(this.provider))
+      this.overview.tvl = +(await getTVL(this.provider))
+      this.overview.dailyVolume = await getDailyVolume()
+      this.overview.totalVolume = await getTotalVolume()
+    },
 
-          dailies(first: 1, orderBy: date, orderDirection: desc) {
-            lockUSD
-            unlockUSD
-          }
+    async getFees() {
+      const provider = this.provider
+      const signer = provider.getSigner()
+      const unboundToken = await new ethers.Contract(
+        contracts.unboundDai,
+        UNBOUND_DOLLAR_ABI,
+        signer
+      )
+
+      // get total fee stored in the contract
+      const storedFee = await unboundToken.storedFee()
+
+      // get splitting ratio of the storedFee
+      const stakeShares = await unboundToken.stakeShares()
+      const safuSharesOfStoredFee = await unboundToken.safuSharesOfStoredFee()
+
+      // split stored fee
+      const stakingFees = (storedFee * stakeShares) / 100
+      this.fees.staking = (stakingFees / 1e18).toFixed(2)
+
+      const remainingFee = storedFee - stakingFees
+
+      this.fees.safu = (
+        (remainingFee * safuSharesOfStoredFee) /
+        100 /
+        1e18
+      ).toFixed(2)
+
+      this.fees.devfund = (
+        (remainingFee - (remainingFee * safuSharesOfStoredFee) / 100) /
+        1e18
+      ).toFixed(2)
+    },
+
+    async getLoanRatioPerLPT(poolToken: any) {
+      const provider = this.provider
+      const signer = provider.getSigner()
+      const contract = await new ethers.Contract(
+        poolToken.address,
+        UNISWAP_LPT_ABI,
+        signer
+      )
+      const reserve = await contract.getReserves()
+      const LPTTotalSupply = await contract.totalSupply()
+      const token0 = await contract.token0()
+      const token1 = await contract.token1()
+      const llc = await getLLC(poolToken.llcAddress, this.provider)
+      if (token0.toLowerCase() === poolToken.stablecoin.toLowerCase()) {
+        const stablecoinDecimal = await getDecimals(token0, this.provider)
+        let difference
+        let totalValueInDai
+        totalValueInDai = reserve[0].toString() * 2
+        // first case: tokenDecimal is smaller than 18
+        // for stablecoins with less than 18 decimals
+        if (stablecoinDecimal < '18' && stablecoinDecimal >= '0') {
+          // calculate amount of decimals under 18
+          difference = 18 - stablecoinDecimal
+          totalValueInDai = totalValueInDai * 10 ** difference
+        } else if (stablecoinDecimal > '18') {
+          // caclulate amount of decimals over 18
+          difference = stablecoinDecimal - 18
+          // removes decimals to match 18
+          totalValueInDai = totalValueInDai / 10 ** difference
         }
-      `,
-      result(queryData) {
-        console.log("Got the result: ", queryData)
-        this.overview.totalVolume =
-          +queryData.data.alls[0].lockUSD + +queryData.data.alls[0].unlockUSD
-          console.log(this.overview.totalVolume)
-        this.overview.dailyVolume =
-          +queryData.data.dailies[0].lockUSD + +queryData.data.dailies[0].unlockUSD
-      },
+
+        return {
+          ltv: (llc.loanRate * 100) / 1e6,
+          price: (totalValueInDai / LPTTotalSupply).toFixed(4).slice(0, -1),
+        }
+      } else {
+        const stablecoinDecimal = await getDecimals(token1, this.provider)
+        let difference
+        let totalValueInDai
+        // first case: tokenDecimal is smaller than 18
+        // for stablecoins with less than 18 decimals
+        totalValueInDai = reserve[1].toString() * 2
+        if (stablecoinDecimal < '18' && stablecoinDecimal >= '0') {
+          // calculate amount of decimals under 18
+          difference = 18 - stablecoinDecimal
+          totalValueInDai = totalValueInDai * 10 ** difference
+        } else if (stablecoinDecimal > '18') {
+          // caclulate amount of decimals over 18
+          difference = stablecoinDecimal - 18
+          // removes decimals to match 18
+          totalValueInDai = totalValueInDai / 10 ** difference
+        }
+
+        return {
+          ltv: (llc.loanRate * 100) / 1e6,
+          price: (totalValueInDai / LPTTotalSupply).toFixed(4).slice(0, -1),
+        }
+      }
+    },
+
+    async getPoolTokens() {
+      try {
+        // @ts-ignore
+        this.poolTokens = (
+          await Promise.all(
+            supportedPoolTokens.map(async (ev) => {
+              const loanRatio = await this.getLoanRatioPerLPT(ev)
+              const lockedLPT = await getTotalLockedLPT(
+                ev.address,
+                ev.llcAddress,
+                this.provider
+              )
+              const mintingFee = await getLLC(ev.llcAddress, this.provider)
+              const price = await getLPTPrice(ev, this.provider)
+              // @ts-ignore
+              const tvl = Number(lockedLPT * price)
+              const uniswapTvl = await getUniswapTvl(
+                ev.uniswapAddress,
+                // @ts-ignore
+                this.provider
+              )
+
+              return {
+                ...ev,
+                ltv: loanRatio.ltv,
+                mintingFee: mintingFee.fee,
+                price: Number(price).toFixed(2),
+                lockedLPT,
+                tvl,
+                uniswapTvl,
+              }
+            })
+          )
+        ).sort(dynamicsort('tvl', 'desc'))
+        // console.log(this.poolTokens)
+      } catch (error) {
+        throw new Error('Something went wrong!' + error)
+      }
     },
   },
+  // apollo: {
+  //   graphQLData: {
+  //     query: gql`
+  //       {
+  //         alls {
+  //           lockUSD
+  //           unlockUSD
+  //         }
+
+  //         dailies(first: 1, orderBy: date, orderDirection: desc) {
+  //           lockUSD
+  //           unlockUSD
+  //         }
+  //       }
+  //     `,
+  //     result(queryData) {
+  //       console.log("Got the result: ", queryData)
+  //       this.overview.totalVolume =
+  //         +queryData.data.alls[0].lockUSD + +queryData.data.alls[0].unlockUSD
+  //         console.log(this.overview.totalVolume)
+  //       this.overview.dailyVolume =
+  //         +queryData.data.dailies[0].lockUSD + +queryData.data.dailies[0].unlockUSD
+  //     },
+  //   },
+  // },
 })
 </script>
 

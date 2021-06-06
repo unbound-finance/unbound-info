@@ -1,10 +1,7 @@
 <template>
   <div class="min-h-screen dark:bg-gray-800">
     <div class="md:max-w-6xl mx-auto p-4">
-      <div class="w-full flex justify-between">
-        <img :src="require('@/assets/logo.svg')" width="28"/>
-      <toggle-dark-mode />
-      </div>
+      <navbar />
       <nuxt />
     </div>
   </div>
