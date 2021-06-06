@@ -4,9 +4,7 @@ import { getEthPrice, getLPTPrice, getTotalLockedLPT } from '~/mixins/info'
 import supportedPoolTokens from '~/configs/supportedPoolTokens'
 import { getProvider } from '~/plugins/web3provider'
 
-export const getTotalLiquidity = async (
-  web3ModalProvider = window.ethereum
-) => {
+export const getTotalLiquidity = async () => {
   const { provider, signer } = getProvider()
   const und = new ethers.Contract(
     contracts.UNDUniswapPool,
@@ -39,7 +37,7 @@ export const getDailyVolume = async () => {}
 
 export const getMintingFees = async () => {}
 
-export const getCRatio = async (web3ModalProvider = window.ethereum) => {
+export const getCRatio = async () => {
   const { provider, signer } = getProvider()
   // Get total UND and uETH minted
   const und = new ethers.Contract(
@@ -79,7 +77,7 @@ export const getCRatio = async (web3ModalProvider = window.ethereum) => {
   return Number((totalLockedLPTValue / totalUTokensMinted) * 100).toFixed(2)
 }
 
-export const getTVL = async (web3ModalProvider = window.ethereum) => {
+export const getTVL = async () => {
   // Get total value of locked LPT's
   const totalLockedLPTValue = (
     await Promise.all(

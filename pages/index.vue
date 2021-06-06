@@ -514,7 +514,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { ethers } from 'ethers'
-import config from '~/globalConfig'
+import { getProvider } from '~/plugins/web3provider'
 // import gql from 'graphql-tag'
 
 // @ts-ignore
@@ -564,9 +564,25 @@ export default Vue.extend({
         devfund: '',
         safu: '',
       },
-      provider: new ethers.providers.JsonRpcProvider(config.infura_url),
       graphQLData: null,
     }
+  },
+  computed: {
+    searchResult() {
+      const search = this.search.trim()
+      if (search) {
+        const regex = new RegExp(search, 'ig')
+        // @ts-ignore
+        const result = this.poolTokens.filter(
+          ({ name, address, exchange }: any) =>
+            regex.test(name) ||
+            (search.slice(0, 2).toLowerCase() === '0x' &&
+              regex.test(address)) ||
+            regex.test(exchange)
+        )
+        // return result //Error on this line. Breaks everything
+      }
+    },
   },
   mounted() {
     // this.provider = new ethers.providers.JsonRpcProvider(config.infura_url)
@@ -576,19 +592,18 @@ export default Vue.extend({
   },
   methods: {
     async getAnalyticsData() {
-      const liquidity = await getTotalLiquidity(this.provider)
+      const liquidity = await getTotalLiquidity()
       this.overview.liquidity.total = liquidity.total
       this.overview.liquidity.UNDLiquidity = liquidity.undLiquidity
       this.overview.liquidity.uETHLiquidity = liquidity.uethLiquidity
-      this.overview.cRatio = +(await getCRatio(this.provider))
-      this.overview.tvl = +(await getTVL(this.provider))
+      this.overview.cRatio = +(await getCRatio())
+      this.overview.tvl = +(await getTVL())
       this.overview.dailyVolume = await getDailyVolume()
       this.overview.totalVolume = await getTotalVolume()
     },
 
     async getFees() {
-      const provider = this.provider
-      const signer = provider.getSigner()
+      const {provider, signer} = getProvider()
       const unboundToken = await new ethers.Contract(
         contracts.unboundDai,
         UNBOUND_DOLLAR_ABI,
@@ -621,8 +636,7 @@ export default Vue.extend({
     },
 
     async getLoanRatioPerLPT(poolToken: any) {
-      const provider = this.provider
-      const signer = provider.getSigner()
+      const {provider, signer} = getProvider()
       const contract = await new ethers.Contract(
         poolToken.address,
         UNISWAP_LPT_ABI,
@@ -632,9 +646,9 @@ export default Vue.extend({
       const LPTTotalSupply = await contract.totalSupply()
       const token0 = await contract.token0()
       const token1 = await contract.token1()
-      const llc = await getLLC(poolToken.llcAddress, this.provider)
+      const llc = await getLLC(poolToken.llcAddress)
       if (token0.toLowerCase() === poolToken.stablecoin.toLowerCase()) {
-        const stablecoinDecimal = await getDecimals(token0, this.provider)
+        const stablecoinDecimal = await getDecimals(token0)
         let difference
         let totalValueInDai
         totalValueInDai = reserve[0].toString() * 2
@@ -656,7 +670,7 @@ export default Vue.extend({
           price: (totalValueInDai / LPTTotalSupply).toFixed(4).slice(0, -1),
         }
       } else {
-        const stablecoinDecimal = await getDecimals(token1, this.provider)
+        const stablecoinDecimal = await getDecimals(token1)
         let difference
         let totalValueInDai
         // first case: tokenDecimal is smaller than 18
@@ -689,11 +703,10 @@ export default Vue.extend({
               const loanRatio = await this.getLoanRatioPerLPT(ev)
               const lockedLPT = await getTotalLockedLPT(
                 ev.address,
-                ev.llcAddress,
-                this.provider
+                ev.llcAddress
               )
-              const mintingFee = await getLLC(ev.llcAddress, this.provider)
-              const price = await getLPTPrice(ev, this.provider)
+              const mintingFee = await getLLC(ev.llcAddress)
+              const price = await getLPTPrice(ev)
               // @ts-ignore
               const tvl = Number(lockedLPT * price)
               const uniswapTvl = await getUniswapTvl(

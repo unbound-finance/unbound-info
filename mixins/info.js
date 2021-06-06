@@ -10,11 +10,8 @@ import { getDecimals } from '~/mixins/ERC20'
 
 import { getProvider } from '~/plugins/web3provider'
 
-const getBalanceOfToken = async (
-  tokenAddress,
-  web3ModalProvider = window.ethereum
-) => {
-  const {provider, signer} = getProvider()
+const getBalanceOfToken = async (tokenAddress) => {
+  const { provider, signer } = getProvider()
   const contract = await new ethers.Contract(tokenAddress, ERC20ABI, signer)
   const userAddress = signer.getAddress()
   const getBalance = await contract.balanceOf(userAddress)
@@ -23,12 +20,8 @@ const getBalanceOfToken = async (
   return formattedBalance
 }
 
-const checkLoan = async (
-  LLCAddress,
-  uTokenAddress,
-  web3ModalProvider = window.ethereum
-) => {
-  const {provider, signer} = getProvider()
+const checkLoan = async (LLCAddress, uTokenAddress) => {
+  const { provider, signer } = getProvider()
   const contract = await new ethers.Contract(
     uTokenAddress,
     UnboundDollarABI,
@@ -41,12 +34,9 @@ const checkLoan = async (
   return { formattedBalance, rawBalance: getBalance }
 }
 
-const getLockedLPT = async (
-  LLCAddress,
-  web3ModalProvider = window.ethereum
-) => {
+const getLockedLPT = async (LLCAddress) => {
   try {
-    const {provider, signer} = getProvider()
+    const { provider, signer } = getProvider()
     const contract = new ethers.Contract(LLCAddress, UnboundLLCABI, signer)
     const userAddress = signer.getAddress()
     const getLocked = await contract.tokensLocked(userAddress)
@@ -60,9 +50,9 @@ const getLockedLPT = async (
   }
 }
 
-const getCR = async (LLCAddress, web3ModalProvider = window.ethereum) => {
+const getCR = async (LLCAddress) => {
   try {
-    const {provider, signer} = getProvider()
+    const { provider, signer } = getProvider()
     const contract = new ethers.Contract(LLCAddress, UnboundLLCABI, signer)
     const getCR = await contract.CREnd()
     return getCR
@@ -71,12 +61,8 @@ const getCR = async (LLCAddress, web3ModalProvider = window.ethereum) => {
   }
 }
 
-const getTotalLockedLPT = async (
-  LPTAddress,
-  LLCAddress,
-  web3ModalProvider = window.ethereum
-) => {
-  const {provider, signer} = getProvider()
+const getTotalLockedLPT = async (LPTAddress, LLCAddress) => {
+  const { provider, signer } = getProvider()
   try {
     const contract = await new ethers.Contract(
       LPTAddress,
@@ -92,8 +78,8 @@ const getTotalLockedLPT = async (
   }
 }
 
-const getLPTPrice = async (poolToken, web3ModalProvider = window.ethereum) => {
-  const {provider, signer} = getProvider()
+const getLPTPrice = async (poolToken) => {
+  const { provider, signer } = getProvider()
   const contract = await new ethers.Contract(
     poolToken.address,
     UniswapLPTABI,
@@ -106,7 +92,7 @@ const getLPTPrice = async (poolToken, web3ModalProvider = window.ethereum) => {
   const token1 = await contract.token1()
 
   if (token0.toLowerCase() === poolToken.stablecoin.toLowerCase()) {
-    const stablecoinDecimal = await getDecimals(token0, web3ModalProvider)
+    const stablecoinDecimal = await getDecimals(token0)
     let difference
     let totalValue
 
@@ -131,7 +117,7 @@ const getLPTPrice = async (poolToken, web3ModalProvider = window.ethereum) => {
       return (totalValue / LPTTotalSupply).toFixed(4).slice(0, -1)
     }
   } else {
-    const stablecoinDecimal = await getDecimals(token1, web3ModalProvider)
+    const stablecoinDecimal = await getDecimals(token1)
     let difference
     let totalValue
 
@@ -318,9 +304,9 @@ const getDailyVolume = async () => {
   }
 }
 
-const getTransactions = async (web3ModalProvider = window.ethereum) => {
+const getTransactions = async () => {
   try {
-    const {provider, signer} = getProvider()
+    const { provider, signer } = getProvider()
     const address = await provider.getSigner().getAddress()
 
     const data = JSON.stringify({
