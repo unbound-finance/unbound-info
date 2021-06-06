@@ -1,11 +1,29 @@
 <template>
   <div>
-    {{ countries }}
     <div
-      class="w-full p-4 rounded-md bg-white dark:bg-gray-900 bg-opacity-75 border border-gray-200 dark:border-gray-800 flex flex-wrap items-center"
+      class="
+        w-full
+        p-4
+        rounded-md
+        bg-white
+        dark:bg-gray-900
+        bg-opacity-75
+        border border-gray-200
+        dark:border-gray-800
+        flex flex-wrap
+        items-center
+      "
     >
       <div
-        class="flex flex-col w-full md:w-1/3 md:border-r border-gray-200 dark:border-gray-800 px-4"
+        class="
+          flex flex-col
+          w-full
+          md:w-1/3
+          md:border-r
+          border-gray-200
+          dark:border-gray-800
+          px-4
+        "
       >
         <div class="p-2 flex flex-col">
           <div class="w-full flex items-center justify-between">
@@ -15,7 +33,17 @@
           </div>
 
           <div
-            class="w-full px-2 flex items-center space-x-6 mt-2 transition-all ease-in duration-150"
+            class="
+              w-full
+              px-2
+              flex
+              items-center
+              space-x-6
+              mt-2
+              transition-all
+              ease-in
+              duration-150
+            "
           >
             <div class="flex items-center">
               <img
@@ -76,7 +104,15 @@
       </div>
 
       <div
-        class="flex flex-col w-full md:w-1/3 md:border-r border-gray-200 dark:border-gray-800 px-4"
+        class="
+          flex flex-col
+          w-full
+          md:w-1/3
+          md:border-r
+          border-gray-200
+          dark:border-gray-800
+          px-4
+        "
       >
         <div class="flex items-center justify-between w-full">
           <div class="p-2 flex flex-col">
@@ -124,7 +160,12 @@
           >
           <button
             type="button"
-            class="text-xs text-light-primary dark:text-dark-primary appearance-none focus:outline-none"
+            class="
+              text-xs text-light-primary
+              dark:text-dark-primary
+              appearance-none
+              focus:outline-none
+            "
             @click="ui.showFeesBreakdown = !ui.showFeesBreakdown"
           >
             <span v-if="!ui.showFeesBreakdown">View Details</span>
@@ -134,7 +175,17 @@
 
         <div
           v-if="ui.showFeesBreakdown"
-          class="w-full px-2 flex items-center justify-between mt-4 transition-all ease-in duration-150"
+          class="
+            w-full
+            px-2
+            flex
+            items-center
+            justify-between
+            mt-4
+            transition-all
+            ease-in
+            duration-150
+          "
         >
           <div class="flex flex-col items-center justify-center">
             <div class="text-lg font-medium text-gray-800 dark:text-gray-200">
@@ -177,12 +228,12 @@
         </div>
       </div>
     </div>
-
+<!-- 
     <div class="ml-2 mt-1 w-auto inline-block cursor-pointer">
       <span class="text-xs dark:text-white hover:border-b" @click="initOnMount"
         >Refresh All</span
       >
-    </div>
+    </div> -->
 
     <div class="mt-4 md:mt-8">
       <div class="w-full flex items-center justify-between py-2">
@@ -193,7 +244,20 @@
         <input
           v-model="search"
           type="text"
-          class="px-4 py-2 md:w-1/3 border border-gray-200 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-500 focus:border-light-primary text-sm rounded-lg appearance-none focus:outline-none"
+          class="
+            px-4
+            py-2
+            md:w-1/3
+            border border-gray-200
+            dark:border-gray-800
+            dark:bg-gray-900
+            dark:text-gray-500
+            focus:border-light-primary
+            text-sm
+            rounded-lg
+            appearance-none
+            focus:outline-none
+          "
           placeholder="Search token, address or exchange..."
         />
       </div>
@@ -204,30 +268,85 @@
               <thead>
                 <tr class="bg-white dark:bg-gray-900">
                   <th
-                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                    class="
+                      px-6
+                      py-3
+                      bg-gray-50
+                      dark:bg-gray-900
+                      text-left text-xs
+                      leading-4
+                      font-medium
+                      text-gray-500
+                      uppercase
+                      tracking-wider
+                    "
                   >
                     Name
                   </th>
 
                   <th
-                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                    class="
+                      px-6
+                      py-3
+                      bg-gray-50
+                      dark:bg-gray-900
+                      text-left text-xs
+                      leading-4
+                      font-medium
+                      text-gray-500
+                      uppercase
+                      tracking-wider
+                    "
                     title="Unbound Total Value Locked"
                   >
                     Unbound TVL
                   </th>
                   <th
-                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                    class="
+                      px-6
+                      py-3
+                      bg-gray-50
+                      dark:bg-gray-900
+                      text-left text-xs
+                      leading-4
+                      font-medium
+                      text-gray-500
+                      uppercase
+                      tracking-wider
+                    "
                     title="Uniswap Total Value Locked"
                   >
                     Uniswap TVL
                   </th>
                   <th
-                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                    class="
+                      px-6
+                      py-3
+                      bg-gray-50
+                      dark:bg-gray-900
+                      text-left text-xs
+                      leading-4
+                      font-medium
+                      text-gray-500
+                      uppercase
+                      tracking-wider
+                    "
                   >
                     Funding Rate
                   </th>
                   <th
-                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                    class="
+                      px-6
+                      py-3
+                      bg-gray-50
+                      dark:bg-gray-900
+                      text-left text-xs
+                      leading-4
+                      font-medium
+                      text-gray-500
+                      uppercase
+                      tracking-wider
+                    "
                   >
                     Minting Fee
                   </th>
@@ -249,12 +368,23 @@
                       </div>
                       <div class="ml-4">
                         <div
-                          class="text-sm leading-5 font-medium text-gray-900 dark:text-gray-200"
+                          class="
+                            text-sm
+                            leading-5
+                            font-medium
+                            text-gray-900
+                            dark:text-gray-200
+                          "
                         >
                           {{ data.name }}
                         </div>
                         <div
-                          class="text-sm leading-5 text-gray-500 dark:text-gray-700"
+                          class="
+                            text-sm
+                            leading-5
+                            text-gray-500
+                            dark:text-gray-700
+                          "
                         >
                           {{ data.exchange }}
                         </div>
@@ -293,12 +423,30 @@
                     </div>
                   </td>
                   <td
-                    class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium"
+                    class="
+                      px-6
+                      py-4
+                      whitespace-no-wrap
+                      text-right text-sm
+                      leading-5
+                      font-medium
+                    "
                   >
                     <nuxt-link to="/mint">
                       <button
                         type="button"
-                        class="bg-light-primary dark:bg-dark-primary text-light-primary dark:text-white bg-opacity-25 px-6 py-1 rounded appearance-none focus:outline-none"
+                        class="
+                          bg-light-primary
+                          dark:bg-dark-primary
+                          text-light-primary
+                          dark:text-white
+                          bg-opacity-25
+                          px-6
+                          py-1
+                          rounded
+                          appearance-none
+                          focus:outline-none
+                        "
                       >
                         Mint
                       </button>
@@ -394,18 +542,34 @@ export default Vue.extend({
       },
       web3ModalProvider: null,
       checkForProvider: null,
+      graphQLData: null,
     }
   },
-  // apollo:{
-  //   countries: gql`
-  //     query{
-  //       countries{
-  //         name
-  //         capital
-  //       }
-  //     }
-  //   `
-  // }
+  apollo: {
+    graphQLData: {
+      query: gql`
+        {
+          alls {
+            lockUSD
+            unlockUSD
+          }
+
+          dailies(first: 1, orderBy: date, orderDirection: desc) {
+            lockUSD
+            unlockUSD
+          }
+        }
+      `,
+      result(queryData) {
+        console.log("Got the result: ", queryData)
+        this.overview.totalVolume =
+          +queryData.data.alls[0].lockUSD + +queryData.data.alls[0].unlockUSD
+          console.log(this.overview.totalVolume)
+        this.overview.dailyVolume =
+          +queryData.data.dailies[0].lockUSD + +queryData.data.dailies[0].unlockUSD
+      },
+    },
+  },
 })
 </script>
 

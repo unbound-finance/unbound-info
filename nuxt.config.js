@@ -17,10 +17,15 @@ export default {
       { hid: 'description', name: 'description', content: '' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: [
+      {
+        src: 'https://kit.fontawesome.com/8c55e9bfce.js',
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/css/tailwind.css'],
+  css: ['@/assets/css/tailwind.css', '@/assets/css/loading-dots.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: ['@/plugins/ga.js', '@/plugins/numberFormatter.js'],
@@ -38,22 +43,19 @@ export default {
 
   //Module Configurations
   colorMode: {
-    classSuffix: ''
+    classSuffix: '',
   },
 
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'https://countries.trevorblades.com/', //testing
-      }
-    }
+        httpEndpoint: 'https://api.thegraph.com/subgraphs/name/furuta/und-kovan',
+      },
+    },
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    '@nuxtjs/apollo',
-  ],
-
+  modules: ['@nuxtjs/apollo'],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
