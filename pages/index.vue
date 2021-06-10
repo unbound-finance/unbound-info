@@ -74,13 +74,13 @@
             </div>
 
             <div class="flex items-center">
-              <img
+              <!-- <img
                 src="~/assets/tokens/uEth.svg"
                 class="mr-2"
                 alt="uEth logo"
                 style="max-height: 20px; max-width: 16px"
-              />
-              <div class="flex flex-col">
+              /> -->
+              <!-- <div class="flex flex-col">
                 <div class="font-medium text-gray-800 dark:text-gray-200">
                   <span v-if="!loading.overview.liquidity.uETHLiquidity">
                     {{
@@ -97,7 +97,7 @@
                 <span class="text-xs text-gray-500 dark:text-gray-600"
                   >uETH</span
                 >
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -223,12 +223,8 @@
         >
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
-              <span v-if="!loading.fees">
-                ${{ Number(fees.staking) }}
-              </span>
-              <span class="text-xs" v-else>
-                Loading...
-              </span>
+              <span v-if="!loading.fees"> ${{ Number(fees.staking) }} </span>
+              <span class="text-xs" v-else> Loading... </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
               >Staker Fees</span
@@ -238,9 +234,7 @@
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
               <span v-if="!loading.fees"> ${{ Number(fees.safu) }} </span>
-              <span class="text-xs" v-else>
-                Loading...
-              </span>
+              <span class="text-xs" v-else> Loading... </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
               >SAFU Fund</span
@@ -249,12 +243,8 @@
 
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
-              <span v-if="!loading.fees">
-                ${{ Number(fees.devfund) }}
-              </span>
-              <span class="text-xs" v-else>
-                Loading...
-              </span>
+              <span v-if="!loading.fees"> ${{ Number(fees.devfund) }} </span>
+              <span class="text-xs" v-else> Loading... </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
               >Dev Fund</span
@@ -264,11 +254,7 @@
 
         <div v-else class="px-2 transition-all ease-in duration-150">
           <div class="font-medium text-2xl text-gray-800 dark:text-gray-200">
-            <span
-              v-if="
-                !loading.fees
-              "
-            >
+            <span v-if="!loading.fees">
               ${{
                 (
                   Number(fees.staking) +
@@ -566,7 +552,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
 import { ethers } from 'ethers'
 import { getProvider } from '~/plugins/web3provider'
@@ -640,7 +626,7 @@ export default Vue.extend({
       if (search) {
         const regex = new RegExp(search, 'ig')
         const result = this.poolTokens.filter(
-          ({ name, address, exchange }: any) =>
+          ({ name, address, exchange }) =>
             regex.test(name) ||
             (search.slice(0, 2).toLowerCase() === '0x' &&
               regex.test(address)) ||
@@ -729,7 +715,7 @@ export default Vue.extend({
       this.loading.fees = false
     },
 
-    async getLoanRatioPerLPT(poolToken: any) {
+    async getLoanRatioPerLPT(poolToken) {
       const { provider, signer } = getProvider()
       const contract = await new ethers.Contract(
         poolToken.address,
@@ -851,5 +837,4 @@ export default Vue.extend({
 })
 </script>
 
-<style>
-</style>
+<style></style>
