@@ -473,7 +473,7 @@
                       whitespace-no-wrap
                     "
                   >
-                    <nuxt-link to="/mint">
+                    <a href="https://zeta.unbound.finance/mint">
                       <button
                         type="button"
                         class="
@@ -491,7 +491,7 @@
                       >
                         Mint
                       </button>
-                    </nuxt-link>
+                    </a>
                   </td>
                 </tr>
               </tbody>
