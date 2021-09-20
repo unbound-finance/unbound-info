@@ -14,44 +14,14 @@
             primary: '#059991',
           },
   
-          dark: {
-            primary: '#49C1BF',
-            bg: '#212429',
-          },
+          // dark: {
+          //   primary: '#49C1BF',
+          //   bg: '#212429',
+          // },
           transparent: 'transparent',
           current: 'currentColor',
         },
       },
     },
-    variants: {
-      backgroundColor: [
-        'dark',
-        'dark-hover',
-        'dark-group-hover',
-        'dark-even',
-        'dark-odd',
-        'hover',
-        'responsive',
-      ],
-      borderColor: [
-        'dark',
-        'dark-focus',
-        'dark-focus-within',
-        'hover',
-        'responsive',
-      ],
-      textColor: ['dark', 'dark-hover', 'dark-active', 'hover', 'responsive'],
-    },
-    // purge: {
-    //   // Learn more on https://tailwindcss.com/docs/controlling-file-size/#removing-unused-css
-    //   enabled: process.env.NODE_ENV === 'production',
-    //   content: [
-    //     'components/**/*.vue',
-    //     'layouts/**/*.vue',
-    //     'pages/**/*.vue',
-    //     'plugins/**/*.js',
-    //     'nuxt.config.js',
-    //   ],
-    // },
   }
   
