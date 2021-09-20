@@ -196,6 +196,7 @@ export default {
     select(option) {
       this.selected = option
       this.open = false
+      this.$store.commit('setSelectedNetwork', option)
     },
     onMouseEnter(option) {
       this.hoverState = option

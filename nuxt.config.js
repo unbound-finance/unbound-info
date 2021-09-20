@@ -84,10 +84,13 @@ export default {
 
   apollo: {
     clientConfigs: {
-      default: {
+      mainnet: {
         httpEndpoint:
           'https://api.thegraph.com/subgraphs/name/furuta/und-kovan',
       },
+      rinkeby: {
+        httpEndpoint: 'https://api.thegraph.com/subgraphs/name/furuta/und-kovan'
+      }
     },
   },
 
