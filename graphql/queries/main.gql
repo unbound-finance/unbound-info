@@ -1,0 +1,11 @@
+query main {
+  alls {
+    lockUSD
+    unlockUSD
+  }
+
+  dailies(first: 1, orderBy: date, orderDirection: desc) {
+    lockUSD
+    unlockUSD
+  }
+}
