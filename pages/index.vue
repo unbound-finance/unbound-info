@@ -307,7 +307,7 @@
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="min-w-full py-2 align-middle inline-block sm:px-6 lg:px-8">
           <div class="shadow overflow-hidden sm:rounded-lg">
-            <table class="divide-y min-w-full divide-gray-200">
+            <table class="divide-y min-w-full divide-gray-200 dark:(divide-gray-800)">
               <thead>
                 <tr class="bg-white dark:bg-gray-900">
                   <th
