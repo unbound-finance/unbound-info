@@ -103,7 +103,7 @@
           <!--
         Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
 
-        Highlighted: "text-white bg-blue-600", Not Highlighted: "text-gray-900"
+        Highlighted: "text-white bg-light-primary", Not Highlighted: "text-gray-900"
       -->
           <li
             class="cursor-pointer select-none relative py-2 pl-3 pr-9"
@@ -116,7 +116,7 @@
             @mouseleave="onMouseLeave(option)"
             :class="
               hoverState === option
-                ? 'text-white bg-blue-600'
+                ? 'text-white bg-light-primary'
                 : 'text-gray-900 dark:text-gray-100'
             "
             @click="select(option)"
@@ -138,14 +138,14 @@
             <!--
           Checkmark, only display for selected option.
 
-          Highlighted: "text-white", Not Highlighted: "text-blue-600"
+          Highlighted: "text-white", Not Highlighted: "text-light-primary"
         -->
             <span
               class="absolute inset-y-0 right-0 flex items-center pr-4"
               :class="
                 hoverState === option
                   ? 'text-white'
-                  : 'text-blue-600 dark:text-gray-100'
+                  : 'text-light-primary dark:text-gray-100'
               "
               v-if="selected.name === option.name"
             >
