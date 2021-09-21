@@ -30,7 +30,7 @@
         aria-labelledby="listbox-label"
       >
         <span class="flex items-center">
-          <span class="ml-3 block truncate"> {{ selected.name }} </span>
+          <span class="ml-3 block truncate"> {{ selected }} </span>
         </span>
         <span
           class="
@@ -109,8 +109,8 @@
             class="cursor-pointer select-none relative py-2 pl-3 pr-9"
             id="listbox-option-0"
             role="option"
-            v-for="option in options"
-            :key="option.id"
+            v-for="(option, i) in options"
+            :key="i"
             :value="option"
             @mouseenter="onMouseEnter(option)"
             @mouseleave="onMouseLeave(option)"
@@ -126,12 +126,12 @@
               <span
                 class="ml-3 block truncate"
                 :class="
-                  selected.name === option.name
+                  selected === option
                     ? 'font-semibold'
                     : 'font-normal'
                 "
               >
-                {{ option.name }}
+                {{ option }}
               </span>
             </div>
 
@@ -147,7 +147,7 @@
                   ? 'text-white'
                   : 'text-light-primary dark:text-gray-100'
               "
-              v-if="selected.name === option.name"
+              v-if="selected === option"
             >
               <!-- Heroicon name: solid/check -->
               <svg
@@ -173,23 +173,18 @@
 </template>
 
 <script>
+import nuxtConfig from '~/nuxt.config'
+
 export default {
   data: () => ({
-    options: [
-      {
-        id: 1,
-        name: 'Mainnet'
-      },
-      {
-        id: 4,
-        name: 'Rinkeby'
-      }
-    ],
+    options: [],
     selected: null,
     open: false,
     hoverState: null,
   }),
   mounted() {
+    this.options = Object.keys(nuxtConfig.apollo.clientConfigs)
+    console.log("Options", this.options)
     this.select(this.options[0])
   },
   methods: {

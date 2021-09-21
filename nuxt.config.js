@@ -86,10 +86,10 @@ export default {
     clientConfigs: {
       mainnet: {
         httpEndpoint:
-          'https://api.thegraph.com/subgraphs/name/furuta/und-kovan',
+          'https://thegraph.com/legacy-explorer/subgraph/unbound-finance/unbound',
       },
       rinkeby: {
-        httpEndpoint: 'https://api.thegraph.com/subgraphs/name/furuta/und-kovan'
+        httpEndpoint: 'https://thegraph.com/legacy-explorer/subgraph/unbound-finance/unbound'
       }
     },
   },

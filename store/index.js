@@ -5,6 +5,6 @@ export const state = () => ({
 
 export const mutations = {
     setSelectedNetwork(state, payload){
-        state.selectedNetwork = payload.name.toLowerCase()
+        state.selectedNetwork = payload.toLowerCase()
     }
 }
