@@ -1,7 +1,5 @@
 <template>
-  <div
-    v-if="options && selected"
-  >
+  <div v-if="options && selected">
     <div class="relative font-poppins">
       <button
         type="button"
@@ -101,14 +99,25 @@
           aria-labelledby="listbox-label"
           aria-activedescendant="listbox-option-3"
         >
-        <h2 class="text-sm p-2 text-true-gray-500 dark:(text-gray-400)">Select Network</h2>
+          <h2 class="text-sm p-2 text-true-gray-500 dark:(text-gray-400)">
+            Select Network
+          </h2>
           <!--
         Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
 
         Highlighted: "text-white bg-light-primary", Not Highlighted: "text-gray-900"
       -->
           <li
-            class="cursor-pointer select-none relative py-2 pl-3 pr-9 my-0.5 rounded-lg"
+            class="
+              cursor-pointer
+              select-none
+              relative
+              py-2
+              pl-3
+              pr-9
+              my-0.5
+              rounded-lg
+            "
             id="listbox-option-0"
             role="option"
             v-for="(option, i) in options"
@@ -117,13 +126,10 @@
             @mouseenter="onMouseEnter(option)"
             @mouseleave="onMouseLeave(option)"
             :class="[
-                selected === option && hoverState !== option ? 'bg-true-gray-200 dark:(bg-gray-500)':'',
               hoverState === option
-                ? 'text-white bg-light-primary'
-                : 'text-gray-900 dark:text-gray-100'
-                
-                ]
-            "
+                ? 'bg-true-gray-200 dark:(bg-gray-500 text-white)'
+                : 'text-gray-900 dark:text-white',
+            ]"
             @click="select(option)"
           >
             <div class="flex items-center">
@@ -131,11 +137,7 @@
               <NetworkCircle :network="option" />
               <span
                 class="ml-3 block truncate"
-                :class="
-                  selected === option
-                    ? 'font-semibold'
-                    : 'font-normal'
-                "
+                :class="selected === option ? 'font-semibold' : 'font-normal'"
               >
                 {{ option }}
               </span>
@@ -190,7 +192,7 @@ export default {
   }),
   mounted() {
     this.options = Object.keys(nuxtConfig.apollo.clientConfigs)
-    console.log("Options", this.options)
+    console.log('Options', this.options)
     this.select(this.options[0])
   },
   methods: {
