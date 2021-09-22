@@ -2,15 +2,15 @@
   <div
     v-if="options && selected"
   >
-    <div class="relative">
+    <div class="relative font-poppins">
       <button
         type="button"
         class="
           relative
-          w-full
+          w-40
           bg-white
           border border-gray-300
-          rounded-md
+          rounded-lg
           shadow-sm
           pl-3
           pr-12
@@ -86,8 +86,8 @@
             bg-white
             shadow-lg
             max-h-56
-            rounded-md
-            py-1
+            rounded-lg
+            p-1
             text-base
             ring-1 ring-black ring-opacity-5
             overflow-auto
@@ -100,13 +100,14 @@
           aria-labelledby="listbox-label"
           aria-activedescendant="listbox-option-3"
         >
+        <h2 class="text-sm p-2 text-true-gray-500 dark:(text-gray-400)">Select Network</h2>
           <!--
         Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
 
         Highlighted: "text-white bg-light-primary", Not Highlighted: "text-gray-900"
       -->
           <li
-            class="cursor-pointer select-none relative py-2 pl-3 pr-9"
+            class="cursor-pointer select-none relative py-2 pl-3 pr-9 my-0.5 rounded-lg"
             id="listbox-option-0"
             role="option"
             v-for="(option, i) in options"
@@ -114,10 +115,13 @@
             :value="option"
             @mouseenter="onMouseEnter(option)"
             @mouseleave="onMouseLeave(option)"
-            :class="
+            :class="[
+                selected === option && hoverState !== option ? 'bg-true-gray-200 dark:(bg-gray-500)':'',
               hoverState === option
                 ? 'text-white bg-light-primary'
                 : 'text-gray-900 dark:text-gray-100'
+                
+                ]
             "
             @click="select(option)"
           >
@@ -140,7 +144,7 @@
 
           Highlighted: "text-white", Not Highlighted: "text-light-primary"
         -->
-            <span
+            <!-- <span
               class="absolute inset-y-0 right-0 flex items-center pr-4"
               :class="
                 hoverState === option
@@ -149,7 +153,6 @@
               "
               v-if="selected === option"
             >
-              <!-- Heroicon name: solid/check -->
               <svg
                 class="h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +166,8 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </span>
+            </span> -->
+            <!-- End of Checkmark -->
           </li>
           <!-- More items... -->
         </ul>

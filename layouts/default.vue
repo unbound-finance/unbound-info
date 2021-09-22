@@ -8,6 +8,9 @@
 </template>
 
 <style lang="scss">
+// Poppins font
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;700&display=swap');
+
 // .light-mode {
 //   // $g-color-1: #ffe7d6;
 //   // $g-color-2: #f2f7ff;

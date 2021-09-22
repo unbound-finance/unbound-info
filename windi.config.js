@@ -8,6 +8,9 @@
     theme: {
       darkSelector: '.dark-mode', // class for dark mode
       extend: {
+        fontFamily:{
+          poppins: ['Poppins', 'ui-sans-serif', 'system-ui']
+        },
         colors: {
           accent: '#059991',
           light: {

@@ -4,8 +4,8 @@
       <img :src="require('@/assets/logo.svg')" width="28" />
     </a>
     <div class="flex items-center space-x-2">
+      <NetworkSelectMenu />
       <ToggleDarkMode />
-      <Modal />
     </div>
   </div>
 </template>
