@@ -307,7 +307,9 @@
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="min-w-full py-2 align-middle inline-block sm:px-6 lg:px-8">
           <div class="shadow overflow-hidden sm:rounded-lg">
-            <table class="divide-y min-w-full divide-gray-200 dark:(divide-gray-800)">
+            <table
+              class="divide-y min-w-full divide-gray-200 dark:(divide-gray-800)"
+            >
               <thead>
                 <tr class="bg-white dark:bg-gray-900">
                   <th
@@ -556,7 +558,6 @@
 import Vue from 'vue'
 import { ethers } from 'ethers'
 import { getProvider } from '~/plugins/web3provider'
-// import gql from 'graphql-tag'
 
 // @ts-ignore
 import { ContentLoader } from 'vue-content-loader'
@@ -576,6 +577,8 @@ import {
 } from '~/mixins/info'
 import { getTotalLiquidity, getCRatio, getTVL } from '~/mixins/analytics'
 import { dynamicsort } from '~/utils'
+
+import mainQuery from '~/graphql/queries/main.gql'
 
 export default Vue.extend({
   components: {
@@ -643,6 +646,16 @@ export default Vue.extend({
     this.getFees()
   },
   methods: {
+    // async queryAllData() {
+    //   try {
+    //     const { data } = this.$apollo.query({
+    //       client: this.$store.state.selectedNetwork || 'rinkeby',
+    //       query: mainQuery,
+    //     })
+    //   } catch (e) {
+    //     console.error(e)
+    //   }
+    // },
     async getAnalyticsData() {
       this.loading.overview.liquidity.UNDLiquidity = true
       this.loading.overview.liquidity.uETHLiquidity = true

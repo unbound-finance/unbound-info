@@ -4,8 +4,14 @@
       <img :src="require('@/assets/logo.svg')" width="28" />
     </a>
     <div class="flex items-center space-x-2">
-    <ToggleDarkMode />
-    <NetworkSelectMenu />
+      <ToggleDarkMode />
+      <Modal />
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'Navbar',
+}
+</script>

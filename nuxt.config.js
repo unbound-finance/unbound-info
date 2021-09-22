@@ -64,6 +64,7 @@ export default {
     '@/plugins/ga.js',
     '@/plugins/numberFormatter.js',
     '@/plugins/web3provider.js',
+    '@/plugins/vue-final-modal.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -98,5 +99,7 @@ export default {
   modules: ['@nuxtjs/apollo'],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: ['vue-final-modal']
+  },
 }
