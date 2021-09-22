@@ -551,6 +551,8 @@
         </div>
       </div>
     </div>
+    <!-- This hidden div is just so that WindiCSS imports these dynamic colors -->
+    <div class="hidden bg-cyan-500 bg-yellow-400"></div>
   </div>
 </template>
 
@@ -641,9 +643,9 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.getPoolTokens()
-    this.getAnalyticsData()
-    this.getFees()
+    // this.getPoolTokens()
+    // this.getAnalyticsData()
+    // this.getFees()
   },
   methods: {
     // async queryAllData() {
