@@ -30,6 +30,7 @@
         aria-labelledby="listbox-label"
       >
         <span class="flex items-center">
+          <NetworkCircle :network="selected" />
           <span class="ml-3 block truncate"> {{ selected }} </span>
         </span>
         <span
@@ -127,6 +128,7 @@
           >
             <div class="flex items-center">
               <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
+              <NetworkCircle :network="option" />
               <span
                 class="ml-3 block truncate"
                 :class="
