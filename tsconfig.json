@@ -25,7 +25,6 @@
     },
     "types": [
       "@nuxt/types",
-      "@types/node",
       "@nuxtjs/color-mode",
       "vue-apollo/types"
     ]
