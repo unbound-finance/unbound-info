@@ -85,12 +85,13 @@ export default {
 
   apollo: {
     clientConfigs: {
+      // Subgraph: https://thegraph.com/legacy-explorer/subgraph/unbound-finance/unboun
       mainnet: {
         httpEndpoint:
-          'https://thegraph.com/legacy-explorer/subgraph/unbound-finance/unbound',
+          'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound',
       },
       rinkeby: {
-        httpEndpoint: 'https://thegraph.com/legacy-explorer/subgraph/unbound-finance/unbound'
+        httpEndpoint: 'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound'
       }
     },
   },

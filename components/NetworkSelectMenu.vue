@@ -192,7 +192,6 @@ export default {
   }),
   mounted() {
     this.options = Object.keys(nuxtConfig.apollo.clientConfigs)
-    console.log('Options', this.options)
     this.select(this.options[0])
   },
   methods: {
