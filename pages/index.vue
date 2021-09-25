@@ -423,8 +423,8 @@
                     <div class="flex items-center">
                       <div class="flex-shrink-0 h-8 w-8">
                         <double-logo
-                          :token0logo="data.currencyOneLogo"
-                          :token1logo="data.currencyTwoLogo"
+                          :token0="getIconUrl(data.token0.symbol)"
+                          :token1="getIconUrl(data.token1.symbol)"
                         />
                       </div>
                       <div class="ml-4">
@@ -585,6 +585,7 @@ import Vue from 'vue'
 import { ContentLoader } from 'vue-content-loader'
 
 import mainQuery from '~/graphql/queries/main.gql'
+import { getIconUrl } from '~/utils/icons'
 
 export default Vue.extend({
   components: {
@@ -623,11 +624,14 @@ export default Vue.extend({
       if (search) {
         const regex = new RegExp(search, 'ig')
         const result = this.vaults.filter(
-          ({ name, address, exchange }) =>
-            regex.test(name) ||
+          ({ id, token0, token1 }) =>
+            regex.test(id) ||
             (search.slice(0, 2).toLowerCase() === '0x' &&
-              regex.test(address)) ||
-            regex.test(exchange)
+              regex.test(id)) ||
+            regex.test(token0.symbol)
+            || regex.test(token0.name) ||
+            regex.test(token1.symbol)
+            || regex.test(token1.name)
         )
         return result
       }
@@ -643,13 +647,15 @@ export default Vue.extend({
     this.$root.$off('networkChanged', this.queryAllData)
   },
   methods: {
+    getIconUrl(args){
+      return getIconUrl(...args)
+    },
     async queryAllData() {
       try {
         const { data } = await this.$apollo.query({
           client: this.$store.state.selectedNetwork || 'mainnet',
           query: mainQuery,
         })
-        console.log("Data received: ", data.vaults)
         this.vaults = data.vaults
       } catch (e) {
         console.error(e)
