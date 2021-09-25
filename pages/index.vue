@@ -505,7 +505,7 @@
                     <div
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                     >
-                      {{ data.limit }}
+                      {{ $numberFormatter(data.limit, 1) }}
                     </div>
                   </td>
                 </tr>
