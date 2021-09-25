@@ -326,7 +326,7 @@
                       dark:bg-gray-900
                     "
                   >
-                    Name
+                    Vault
                   </th>
 
                   <th
