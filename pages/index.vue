@@ -113,7 +113,7 @@
             :title="overview.tvl.toLocaleString()"
           >
             <span v-if="!loading">
-              ${{ $numberFormatter(Number(overview.tvl), 1) }}
+              {{ $numberFormatter(Number(overview.tvl), 1) }}
             </span>
             <span v-else>
               <content-loader :height="15" :primary-opacity="0.4" />
@@ -160,7 +160,7 @@
               :title="overview.totalVolume.toLocaleString()"
             >
               <span v-if="!loading">
-                ${{ $numberFormatter(overview.totalVolume) }}
+                {{ $numberFormatter(overview.totalVolume) }}
               </span>
               <span v-else>
                 <content-loader :height="40" :primary-opacity="0.4" />
