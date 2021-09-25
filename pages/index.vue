@@ -299,7 +299,7 @@
             dark:bg-gray-900
             dark:text-gray-500
           "
-          placeholder="Search token, address or exchange..."
+          placeholder="Search vault, token or address..."
         />
       </div>
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
