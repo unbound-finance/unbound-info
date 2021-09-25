@@ -653,12 +653,30 @@ export default Vue.extend({
           query: mainQuery,
         })
         this.vaults = data.vaults
+        this.calculateOverview()
         this.loading = false
       } catch (e) {
         console.error(e)
         this.loading = false
       }
     },
+    /**
+     * Calculate Overview values from the table
+     */
+    calculateOverview(){
+      this.overview.totalVolume = 0
+      this.overview.tvl = 0
+      this.overview.cRatio = 0
+      // Loop through all vaults
+      const LPTPrice = 1 // Get from subgraph (which may use Oracle itself)
+      this.vaults.forEach((vault) => {
+        this.overview.totalVolume += +vault.volume * LPTPrice
+        this.overview.tvl += +vault.tvl * LPTPrice
+      })
+
+      // Temporary
+      this.overview.cRatio = this.vaults[0].cr / 1e6
+    }
   },
 })
 </script>
