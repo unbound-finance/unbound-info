@@ -55,7 +55,7 @@
               />
               <div class="flex flex-col">
                 <div class="font-medium text-gray-800 dark:text-gray-200">
-                  <span v-if="!loading.overview.liquidity.UNDLiquidity">
+                  <span v-if="!loading">
                     {{
                       $numberFormatter(
                         Number(overview.liquidity.UNDLiquidity),
@@ -112,7 +112,7 @@
             class="font-medium text-xl text-gray-800 dark:text-gray-200"
             :title="overview.tvl.toLocaleString()"
           >
-            <span v-if="!loading.overview.tvl">
+            <span v-if="!loading">
               ${{ $numberFormatter(Number(overview.tvl), 1) }}
             </span>
             <span v-else>
@@ -142,7 +142,7 @@
               class="font-medium text-xl text-gray-800 dark:text-gray-200"
               :title="overview.dailyVolume.toLocaleString()"
             >
-              <span v-if="!loading.overview.dailyVolume">
+              <span v-if="!loading">
                 ${{ $numberFormatter(overview.dailyVolume) }}
               </span>
               <span v-else>
@@ -159,7 +159,7 @@
               class="font-medium text-xl text-gray-800 dark:text-gray-200"
               :title="overview.totalVolume.toLocaleString()"
             >
-              <span v-if="!loading.overview.totalVolume">
+              <span v-if="!loading">
                 ${{ $numberFormatter(overview.totalVolume) }}
               </span>
               <span v-else>
@@ -177,7 +177,7 @@
             >Collatralization Ratio</span
           >
           <div class="font-medium text-xl text-gray-800 dark:text-gray-200">
-            <span v-if="!loading.overview.cRatio">
+            <span v-if="!loading">
               {{ overview.cRatio }}%
             </span>
             <span v-else>
@@ -223,7 +223,7 @@
         >
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
-              <span v-if="!loading.fees"> ${{ Number(fees.staking) }} </span>
+              <span v-if="!loading"> ${{ Number(fees.staking) }} </span>
               <span class="text-xs" v-else> Loading... </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
@@ -233,7 +233,7 @@
 
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
-              <span v-if="!loading.fees"> ${{ Number(fees.safu) }} </span>
+              <span v-if="!loading"> ${{ Number(fees.safu) }} </span>
               <span class="text-xs" v-else> Loading... </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
@@ -243,7 +243,7 @@
 
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
-              <span v-if="!loading.fees"> ${{ Number(fees.devfund) }} </span>
+              <span v-if="!loading"> ${{ Number(fees.devfund) }} </span>
               <span class="text-xs" v-else> Loading... </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
@@ -254,7 +254,7 @@
 
         <div v-else class="px-2 transition-all ease-in duration-150">
           <div class="font-medium text-2xl text-gray-800 dark:text-gray-200">
-            <span v-if="!loading.fees">
+            <span v-if="!loading">
               ${{
                 (
                   Number(fees.staking) +
@@ -280,7 +280,7 @@
     <div class="mt-4 md:mt-8">
       <div class="flex w-full py-2 items-center justify-between">
         <p class="font-medium text-lg p-2 text-gray-800 dark:text-gray-200">
-          Liquidity Pool Tokens
+          Vaults
         </p>
 
         <input
@@ -359,9 +359,9 @@
                       uppercase
                       dark:bg-gray-900
                     "
-                    title="Uniswap Total Value Locked"
+                    title="Unbound Total Value Locked"
                   >
-                    Uniswap TVL
+                    Volume
                   </th>
                   <th
                     class="
@@ -377,7 +377,23 @@
                       dark:bg-gray-900
                     "
                   >
-                    Funding Rate
+                    Loan to Value
+                  </th>
+                  <th
+                    class="
+                      font-medium
+                      bg-gray-50
+                      text-left text-xs
+                      tracking-wider
+                      py-3
+                      px-6
+                      text-gray-500
+                      leading-4
+                      uppercase
+                      dark:bg-gray-900
+                    "
+                  >
+                    CR
                   </th>
                   <th
                     class="
@@ -420,9 +436,9 @@
                             dark:text-gray-200
                           "
                         >
-                          {{ data.name }}
+                          {{ data.id }}
                         </div>
-                        <div
+                        <!-- <div
                           class="
                             text-sm text-gray-500
                             leading-5
@@ -430,7 +446,7 @@
                           "
                         >
                           {{ data.exchange }}
-                        </div>
+                        </div> -->
                       </div>
                     </div>
                   </td>
@@ -446,23 +462,30 @@
                   <td class="py-4 px-6 whitespace-no-wrap">
                     <div
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
-                      :title="data.uniswapTvl.toLocaleString()"
+                      :title="data.volume.toLocaleString()"
                     >
-                      {{ $numberFormatter(data.uniswapTvl, 1) }}
+                      {{ $numberFormatter(data.volume, 1) }}
                     </div>
                   </td>
                   <td class="py-4 px-6 whitespace-no-wrap">
                     <div
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                     >
-                      {{ data.ltv }}%
+                      {{ data.LTV / 1e6 }}%
                     </div>
                   </td>
                   <td class="py-4 px-6 whitespace-no-wrap">
                     <div
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                     >
-                      {{ Number((data.mintingFee / 1e6) * 100) }}%
+                      {{ data.cr  }}
+                    </div>
+                  </td>
+                  <td class="py-4 px-6 whitespace-no-wrap">
+                    <div
+                      class="text-sm text-gray-900 leading-5 dark:text-gray-200"
+                    >
+                      {{ data.fee }}%
                     </div>
                   </td>
                   <td
@@ -573,7 +596,7 @@ export default Vue.extend({
         showFeesBreakdown: false,
         showLiquidityBreakdown: false,
       },
-      poolTokens: null,
+      vaults: null,
       search: '',
       overview: {
         liquidity: {
@@ -599,7 +622,7 @@ export default Vue.extend({
       const search = this.search.trim()
       if (search) {
         const regex = new RegExp(search, 'ig')
-        const result = this.poolTokens.filter(
+        const result = this.vaults.filter(
           ({ name, address, exchange }) =>
             regex.test(name) ||
             (search.slice(0, 2).toLowerCase() === '0x' &&
@@ -608,19 +631,26 @@ export default Vue.extend({
         )
         return result
       }
-      return this.poolTokens
+      return this.vaults
     },
   },
   mounted() {
     this.queryAllData()
+
+    this.$root.$on('networkChanged', this.queryAllData)
+  },
+  beforeDestroy(){
+    this.$root.$off('networkChanged', this.queryAllData)
   },
   methods: {
     async queryAllData() {
       try {
-        const { data } = this.$apollo.query({
-          client: this.$store.state.selectedNetwork || 'rinkeby',
+        const { data } = await this.$apollo.query({
+          client: this.$store.state.selectedNetwork || 'mainnet',
           query: mainQuery,
         })
+        console.log("Data received: ", data.vaults)
+        this.vaults = data.vaults
       } catch (e) {
         console.error(e)
       }

@@ -165,9 +165,12 @@ export default {
   },
   methods: {
     select(option) {
+      if(this.selected === option) return
+
       this.selected = option
       this.open = false
       this.$store.commit('setSelectedNetwork', option)
+      this.$root.$emit('networkChanged')
     },
     onMouseEnter(option) {
       this.hoverState = option
