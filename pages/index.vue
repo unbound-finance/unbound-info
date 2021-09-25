@@ -652,7 +652,7 @@ export default Vue.extend({
           tvl: +vault.tvl / 1e18
         }))
 
-        this.overview.liquidity.UNDLiquidity = data.factories[0].undMinted
+        this.overview.liquidity.UNDLiquidity = +data.factories[0].undMinted / 1e18
 
         this.calculateOverview()
         this.loading = false
