@@ -177,9 +177,7 @@
             >Collatralization Ratio</span
           >
           <div class="font-medium text-xl text-gray-800 dark:text-gray-200">
-            <span v-if="!loading">
-              {{ overview.cRatio }}%
-            </span>
+            <span v-if="!loading"> {{ overview.cRatio }}% </span>
             <span v-else>
               <content-loader :height="15" :primary-opacity="0.4" />
             </span>
@@ -411,6 +409,22 @@
                   >
                     Minting Fee
                   </th>
+                  <th
+                    class="
+                      font-medium
+                      bg-gray-50
+                      text-left text-xs
+                      tracking-wider
+                      py-3
+                      px-6
+                      text-gray-500
+                      leading-4
+                      uppercase
+                      dark:bg-gray-900
+                    "
+                  >
+                    Limit
+                  </th>
                   <th class="bg-gray-50 py-3 px-6 dark:bg-gray-900"></th>
                 </tr>
               </thead>
@@ -478,7 +492,7 @@
                     <div
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                     >
-                      {{ data.cr / 1e6  }}%
+                      {{ data.cr / 1e6 }}%
                     </div>
                   </td>
                   <td class="py-4 px-6 whitespace-no-wrap">
@@ -498,25 +512,7 @@
                       whitespace-no-wrap
                     "
                   >
-                    <a href="https://zeta.unbound.finance/mint">
-                      <button
-                        type="button"
-                        class="
-                          bg-light-primary
-                          rounded
-                          bg-opacity-25
-                          text-light-primary
-                          py-1
-                          px-6
-                          dark:bg-dark-primary
-                          dark:text-white
-                          appearance-none
-                          focus:outline-none
-                        "
-                      >
-                        Mint
-                      </button>
-                    </a>
+                    limit here
                   </td>
                 </tr>
               </tbody>
@@ -626,12 +622,11 @@ export default Vue.extend({
         const result = this.vaults.filter(
           ({ id, token0, token1 }) =>
             regex.test(id) ||
-            (search.slice(0, 2).toLowerCase() === '0x' &&
-              regex.test(id)) ||
-            regex.test(token0.symbol)
-            || regex.test(token0.name) ||
-            regex.test(token1.symbol)
-            || regex.test(token1.name)
+            (search.slice(0, 2).toLowerCase() === '0x' && regex.test(id)) ||
+            regex.test(token0.symbol) ||
+            regex.test(token0.name) ||
+            regex.test(token1.symbol) ||
+            regex.test(token1.name)
         )
         return result
       }
@@ -643,11 +638,11 @@ export default Vue.extend({
 
     this.$root.$on('networkChanged', this.queryAllData)
   },
-  beforeDestroy(){
+  beforeDestroy() {
     this.$root.$off('networkChanged', this.queryAllData)
   },
   methods: {
-    getIconUrl(args){
+    getIconUrl(args) {
       return getIconUrl(...args)
     },
     async queryAllData() {
