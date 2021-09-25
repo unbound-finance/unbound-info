@@ -90,9 +90,9 @@ export default {
         httpEndpoint:
           'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound',
       },
-      rinkeby: {
-        httpEndpoint: 'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound'
-      }
+      // rinkeby: {
+      //   httpEndpoint: 'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound'
+      // }
     },
   },
 

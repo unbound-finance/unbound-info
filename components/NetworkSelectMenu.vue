@@ -165,8 +165,10 @@ export default {
   },
   methods: {
     select(option) {
-      if(this.selected === option) return
-
+      if(this.selected === option) {
+        this.open = false
+        return
+      }
       this.selected = option
       this.open = false
       this.$store.commit('setSelectedNetwork', option)
