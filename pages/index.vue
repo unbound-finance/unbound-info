@@ -415,13 +415,13 @@
                 </tr>
               </thead>
               <tbody
-                v-if="searchResult && searchResult.length != 0"
+                v-if="!loading && searchResult && searchResult.length != 0"
                 class="bg-white bg-opacity-75 dark:bg-gray-900"
               >
                 <tr v-for="(data, i) in searchResult" :key="i">
                   <td class="py-4 px-6 whitespace-no-wrap">
                     <div class="flex items-center">
-                      <div class="flex-shrink-0 h-8 w-8">
+                      <div class="flex-shrink-0 h-8 w-8 mt-2">
                         <double-logo
                           :token0="getIconUrl(data.token0.symbol)"
                           :token1="getIconUrl(data.token1.symbol)"
@@ -652,13 +652,16 @@ export default Vue.extend({
     },
     async queryAllData() {
       try {
+        this.loading = true
         const { data } = await this.$apollo.query({
           client: this.$store.state.selectedNetwork || 'mainnet',
           query: mainQuery,
         })
         this.vaults = data.vaults
+        this.loading = false
       } catch (e) {
         console.error(e)
+        this.loading = false
       }
     },
   },
