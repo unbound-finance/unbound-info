@@ -558,27 +558,8 @@
 
 <script>
 import Vue from 'vue'
-import { ethers } from 'ethers'
-import { getProvider } from '~/plugins/web3provider'
-
 // @ts-ignore
 import { ContentLoader } from 'vue-content-loader'
-
-import supportedPoolTokens from '~/configs/supportedPoolTokens'
-
-import { UNISWAP_LPT_ABI, UNBOUND_DOLLAR_ABI, contracts } from '~/constants'
-
-import { getDecimals } from '~/mixins/ERC20'
-import { getLLC } from '~/mixins/valuator'
-import {
-  getTotalLockedLPT,
-  getLPTPrice,
-  getUniswapTvl,
-  getTotalVolume,
-  getDailyVolume,
-} from '~/mixins/info'
-import { getTotalLiquidity, getCRatio, getTVL } from '~/mixins/analytics'
-import { dynamicsort } from '~/utils'
 
 import mainQuery from '~/graphql/queries/main.gql'
 
@@ -610,19 +591,7 @@ export default Vue.extend({
         devfund: '',
         safu: '',
       },
-      loading: {
-        overview: {
-          liquidity: {
-            UNDLiquidity: false,
-            uETHLiquidity: false,
-          },
-          dailyVolume: false,
-          totalVolume: false,
-          cRatio: false,
-          tvl: false,
-        },
-        fees: false,
-      },
+      loading: false,
     }
   },
   computed: {
@@ -643,212 +612,20 @@ export default Vue.extend({
     },
   },
   mounted() {
-    // this.getPoolTokens()
-    // this.getAnalyticsData()
-    // this.getFees()
+    this.queryAllData()
   },
   methods: {
-    // async queryAllData() {
-    //   try {
-    //     const { data } = this.$apollo.query({
-    //       client: this.$store.state.selectedNetwork || 'rinkeby',
-    //       query: mainQuery,
-    //     })
-    //   } catch (e) {
-    //     console.error(e)
-    //   }
-    // },
-    async getAnalyticsData() {
-      this.loading.overview.liquidity.UNDLiquidity = true
-      this.loading.overview.liquidity.uETHLiquidity = true
-      this.loading.overview.cRatio = true
-      this.loading.overview.tvl = true
-      this.loading.overview.dailyVolume = true
-      this.loading.overview.totalVolume = true
-
-      const liquidity = await getTotalLiquidity()
-      this.overview.liquidity.total = liquidity.total
-      this.overview.liquidity.UNDLiquidity = liquidity.undLiquidity
-
-      this.loading.overview.liquidity.UNDLiquidity = false
-
-      this.overview.liquidity.uETHLiquidity = liquidity.uethLiquidity
-
-      this.loading.overview.liquidity.uETHLiquidity = false
-
-      this.overview.cRatio = +(await getCRatio())
-
-      this.loading.overview.cRatio = false
-
-      this.overview.tvl = +(await getTVL())
-
-      this.loading.overview.tvl = false
-
-      this.overview.dailyVolume = await getDailyVolume()
-
-      this.loading.overview.dailyVolume = false
-
-      this.overview.totalVolume = await getTotalVolume()
-
-      this.loading.overview.totalVolume = false
-    },
-
-    async getFees() {
-      this.loading.fees = true
-
-      const { provider, signer } = getProvider()
-      const unboundToken = await new ethers.Contract(
-        contracts.unboundDai,
-        UNBOUND_DOLLAR_ABI,
-        provider
-      )
-
-      // get total fee stored in the contract
-      const storedFee = await unboundToken.storedFee()
-
-      // get splitting ratio of the storedFee
-      const stakeShares = await unboundToken.stakeShares()
-      const safuSharesOfStoredFee = await unboundToken.safuSharesOfStoredFee()
-
-      // split stored fee
-      const stakingFees = (storedFee * stakeShares) / 100
-      this.fees.staking = (stakingFees / 1e18).toFixed(2)
-
-      const remainingFee = storedFee - stakingFees
-
-      this.fees.safu = (
-        (remainingFee * safuSharesOfStoredFee) /
-        100 /
-        1e18
-      ).toFixed(2)
-
-      this.fees.devfund = (
-        (remainingFee - (remainingFee * safuSharesOfStoredFee) / 100) /
-        1e18
-      ).toFixed(2)
-
-      this.loading.fees = false
-    },
-
-    async getLoanRatioPerLPT(poolToken) {
-      const { provider, signer } = getProvider()
-      const contract = await new ethers.Contract(
-        poolToken.address,
-        UNISWAP_LPT_ABI,
-        provider
-      )
-      const reserve = await contract.getReserves()
-      const LPTTotalSupply = await contract.totalSupply()
-      const token0 = await contract.token0()
-      const token1 = await contract.token1()
-      const llc = await getLLC(poolToken.llcAddress)
-      if (token0.toLowerCase() === poolToken.stablecoin.toLowerCase()) {
-        const stablecoinDecimal = await getDecimals(token0)
-        let difference
-        let totalValueInDai
-        totalValueInDai = reserve[0].toString() * 2
-        // first case: tokenDecimal is smaller than 18
-        // for stablecoins with less than 18 decimals
-        if (stablecoinDecimal < '18' && stablecoinDecimal >= '0') {
-          // calculate amount of decimals under 18
-          difference = 18 - stablecoinDecimal
-          totalValueInDai = totalValueInDai * 10 ** difference
-        } else if (stablecoinDecimal > '18') {
-          // caclulate amount of decimals over 18
-          difference = stablecoinDecimal - 18
-          // removes decimals to match 18
-          totalValueInDai = totalValueInDai / 10 ** difference
-        }
-
-        return {
-          ltv: (llc.loanRate * 100) / 1e6,
-          price: (totalValueInDai / LPTTotalSupply).toFixed(4).slice(0, -1),
-        }
-      } else {
-        const stablecoinDecimal = await getDecimals(token1)
-        let difference
-        let totalValueInDai
-        // first case: tokenDecimal is smaller than 18
-        // for stablecoins with less than 18 decimals
-        totalValueInDai = reserve[1].toString() * 2
-        if (stablecoinDecimal < '18' && stablecoinDecimal >= '0') {
-          // calculate amount of decimals under 18
-          difference = 18 - stablecoinDecimal
-          totalValueInDai = totalValueInDai * 10 ** difference
-        } else if (stablecoinDecimal > '18') {
-          // caclulate amount of decimals over 18
-          difference = stablecoinDecimal - 18
-          // removes decimals to match 18
-          totalValueInDai = totalValueInDai / 10 ** difference
-        }
-
-        return {
-          ltv: (llc.loanRate * 100) / 1e6,
-          price: (totalValueInDai / LPTTotalSupply).toFixed(4).slice(0, -1),
-        }
-      }
-    },
-
-    async getPoolTokens() {
+    async queryAllData() {
       try {
-        // @ts-ignore
-        this.poolTokens = (
-          await Promise.all(
-            supportedPoolTokens.map(async (ev) => {
-              const loanRatio = await this.getLoanRatioPerLPT(ev)
-              const lockedLPT = await getTotalLockedLPT(
-                ev.address,
-                ev.llcAddress
-              )
-              const mintingFee = await getLLC(ev.llcAddress)
-              const price = await getLPTPrice(ev)
-              // @ts-ignore
-              const tvl = Number(lockedLPT * price)
-              const uniswapTvl = await getUniswapTvl(ev.uniswapAddress)
-
-              return {
-                ...ev,
-                ltv: loanRatio.ltv,
-                mintingFee: mintingFee.fee,
-                price: Number(price).toFixed(2),
-                lockedLPT,
-                tvl,
-                uniswapTvl,
-              }
-            })
-          )
-        ).sort(dynamicsort('tvl', 'desc'))
-      } catch (error) {
-        console.log('getPoolTokens error')
-        throw new Error('Something went wrong! ' + error)
+        const { data } = this.$apollo.query({
+          client: this.$store.state.selectedNetwork || 'rinkeby',
+          query: mainQuery,
+        })
+      } catch (e) {
+        console.error(e)
       }
     },
   },
-  // apollo: {
-  //   graphQLData: {
-  //     query: gql`
-  //       {
-  //         alls {
-  //           lockUSD
-  //           unlockUSD
-  //         }
-
-  //         dailies(first: 1, orderBy: date, orderDirection: desc) {
-  //           lockUSD
-  //           unlockUSD
-  //         }
-  //       }
-  //     `,
-  //     result(queryData) {
-  //       console.log("Got the result: ", queryData)
-  //       this.overview.totalVolume =
-  //         +queryData.data.alls[0].lockUSD + +queryData.data.alls[0].unlockUSD
-  //         console.log(this.overview.totalVolume)
-  //       this.overview.dailyVolume =
-  //         +queryData.data.dailies[0].lockUSD + +queryData.data.dailies[0].unlockUSD
-  //     },
-  //   },
-  // },
 })
 </script>
 
