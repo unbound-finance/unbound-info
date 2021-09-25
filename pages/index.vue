@@ -456,7 +456,7 @@
                           class="
                             text-xs text-gray-500
                             leading-5
-                            dark:text-gray-700
+                            dark:text-gray-500
                           "
                         >
                           {{ data.id }}
