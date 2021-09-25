@@ -502,17 +502,12 @@
                       {{ data.fee }}%
                     </div>
                   </td>
-                  <td
-                    class="
-                      font-medium
-                      text-right text-sm
-                      py-4
-                      px-6
-                      leading-5
-                      whitespace-no-wrap
-                    "
-                  >
-                    limit here
+                  <td class="py-4 px-6 whitespace-no-wrap">
+                    <div
+                      class="text-sm text-gray-900 leading-5 dark:text-gray-200"
+                    >
+                      {{ data.limit }}
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -653,6 +648,9 @@ export default Vue.extend({
           query: mainQuery,
         })
         this.vaults = data.vaults
+
+        this.overview.liquidity.UNDLiquidity = data.factories[0].undMinted
+
         this.calculateOverview()
         this.loading = false
       } catch (e) {
@@ -663,7 +661,7 @@ export default Vue.extend({
     /**
      * Calculate Overview values from the table
      */
-    calculateOverview(){
+    calculateOverview() {
       this.overview.totalVolume = 0
       this.overview.tvl = 0
       this.overview.cRatio = 0
@@ -676,7 +674,7 @@ export default Vue.extend({
 
       // Temporary
       this.overview.cRatio = this.vaults[0].cr / 1e6
-    }
+    },
   },
 })
 </script>

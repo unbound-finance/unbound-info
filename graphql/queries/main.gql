@@ -1,4 +1,8 @@
 query main {
+  factories(first: 5){
+    id
+    undMinted
+  }
   vaults(first: 5) {
     id
     txCount
@@ -7,6 +11,7 @@ query main {
     cr
     LTV
     fee
+    limit
     token0 {
       id
       name
