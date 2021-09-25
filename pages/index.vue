@@ -134,7 +134,7 @@
         "
       >
         <div class="flex w-full items-center justify-between">
-          <div class="flex flex-col p-2">
+          <!-- <div class="flex flex-col p-2">
             <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
               >24H Volume</span
             >
@@ -149,7 +149,7 @@
                 <content-loader :height="40" :primary-opacity="0.4" />
               </span>
             </div>
-          </div>
+          </div> -->
 
           <div class="flex flex-col p-2">
             <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
@@ -450,17 +450,17 @@
                             dark:text-gray-200
                           "
                         >
-                          {{ data.id }}
+                          {{ data.token0.symbol }} - {{ data.token1.symbol }}
                         </div>
-                        <!-- <div
+                        <div
                           class="
-                            text-sm text-gray-500
+                            text-xs text-gray-500
                             leading-5
                             dark:text-gray-700
                           "
                         >
-                          {{ data.exchange }}
-                        </div> -->
+                          {{ data.id }}
+                        </div>
                       </div>
                     </div>
                   </td>
@@ -647,7 +647,11 @@ export default Vue.extend({
           client: this.$store.state.selectedNetwork || 'mainnet',
           query: mainQuery,
         })
-        this.vaults = data.vaults
+        this.vaults = data.vaults.map((vault) => ({
+          ...vault,
+          volume: +vault.volume / 1e18,
+          tvl: +vault.tvl / 1e18
+        }))
 
         this.overview.liquidity.UNDLiquidity = data.factories[0].undMinted
 
