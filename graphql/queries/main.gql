@@ -1,11 +1,23 @@
 query main {
-  alls {
-    lockUSD
-    unlockUSD
-  }
-
-  dailies(first: 1, orderBy: date, orderDirection: desc) {
-    lockUSD
-    unlockUSD
+  vaults(first: 5) {
+    id
+    txCount
+    tvl
+    volume
+    cr
+    LTV
+    fee
+    token0 {
+      id
+      name
+      symbol
+    }
+    token1 {
+      id
+      name
+      symbol
+    }
   }
 }
+
+
