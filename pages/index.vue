@@ -637,7 +637,7 @@ export default Vue.extend({
   },
   methods: {
     getIconUrl(args) {
-      return getIconUrl(...args)
+      return getIconUrl(args)
     },
     async queryAllData() {
       try {
