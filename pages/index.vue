@@ -113,7 +113,7 @@
             :title="overview.tvl.toLocaleString()"
           >
             <span v-if="!loading">
-              {{ $numberFormatter(Number(overview.tvl), 1) }}
+              ${{ $numberFormatter(Number(overview.tvl), 1) }}
             </span>
             <span v-else>
               <content-loader :height="15" :primary-opacity="0.4" />
@@ -160,7 +160,7 @@
               :title="overview.totalVolume.toLocaleString()"
             >
               <span v-if="!loading">
-                {{ $numberFormatter(overview.totalVolume) }}
+                ${{ $numberFormatter(overview.totalVolume) }}
               </span>
               <span v-else>
                 <content-loader :height="40" :primary-opacity="0.4" />
@@ -469,7 +469,7 @@
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                       :title="data.tvl.toLocaleString()"
                     >
-                      {{ $numberFormatter(data.tvl, 1) }}
+                      ${{ $numberFormatter(data.tvl, 1) }}
                     </div>
                   </td>
                   <td class="py-4 px-6 whitespace-no-wrap">
@@ -477,7 +477,7 @@
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                       :title="data.volume.toLocaleString()"
                     >
-                      {{ $numberFormatter(data.volume, 1) }}
+                      ${{ $numberFormatter(data.volume, 1) }}
                     </div>
                   </td>
                   <td class="py-4 px-6 whitespace-no-wrap">
@@ -505,7 +505,7 @@
                     <div
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                     >
-                      {{ $numberFormatter(data.limit, 1) }}
+                      {{ $numberFormatter(parseInt(data.limit) / 1e18, 1) }}
                     </div>
                   </td>
                 </tr>
@@ -649,10 +649,11 @@ export default Vue.extend({
         this.vaults = data.vaults.map((vault) => ({
           ...vault,
           volume: +vault.volume / 1e18,
-          tvl: +vault.tvl / 1e18
+          tvl: +vault.tvl / 1e18,
         }))
 
-        this.overview.liquidity.UNDLiquidity = +data.factories[0].undMinted / 1e18
+        this.overview.liquidity.UNDLiquidity =
+          +data.factories[0].undMinted / 1e18
 
         this.calculateOverview()
         this.loading = false
