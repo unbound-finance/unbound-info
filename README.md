@@ -1,4 +1,4 @@
-# analyticss
+# analytics
 
 ## Build Setup
 
