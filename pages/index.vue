@@ -564,8 +564,6 @@
         </div>
       </div>
     </div>
-    <!-- This hidden div is just so that WindiCSS imports these dynamic colors -->
-    <div class="hidden bg-cyan-500 bg-yellow-400"></div>
   </div>
 </template>
 

@@ -1,12 +1,9 @@
-/*
- ** TailwindCSS Configuration File
- **
- ** Docs: https://tailwindcss.com/docs/configuration
- ** Default: https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
- */
- module.exports = {
+import { defineConfig } from 'windicss/helpers'
+
+export default defineConfig({
+   safelist: 'bg-cyan-500 bg-yellow-400',
     theme: {
-      darkSelector: '.dark-mode', // class for dark mode
+      // darkSelector: '.dark-mode', // class for dark mode
       extend: {
         fontFamily:{
           poppins: ['Poppins', 'ui-sans-serif', 'system-ui']
@@ -26,5 +23,5 @@
         },
       },
     },
-  }
+  })
   
