@@ -567,118 +567,123 @@
   </div>
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator'
 // @ts-ignore
 import { ContentLoader } from 'vue-content-loader'
 
 import mainQuery from '~/graphql/queries/main.gql'
 import { getIconUrl } from '~/utils/icons'
 
-export default Vue.extend({
+@Component<Home>({
   components: {
     ContentLoader,
   },
-  data() {
-    return {
-      ui: {
-        showFeesBreakdown: false,
-        showLiquidityBreakdown: false,
-      },
-      vaults: null,
-      search: '',
-      overview: {
-        liquidity: {
-          total: 0,
-          UNDLiquidity: 0,
-          uETHLiquidity: 0,
-        },
-        dailyVolume: 0,
-        totalVolume: 0,
-        cRatio: 0,
-        tvl: 0,
-      },
-      fees: {
-        staking: '',
-        devfund: '',
-        safu: '',
-      },
-      loading: false,
-    }
-  },
-  computed: {
-    searchResult() {
-      const search = this.search.trim()
-      if (search) {
-        const regex = new RegExp(search, 'ig')
-        const result = this.vaults.filter(
-          ({ id, token0, token1 }) =>
-            regex.test(id) ||
-            (search.slice(0, 2).toLowerCase() === '0x' && regex.test(id)) ||
-            regex.test(token0.symbol) ||
-            regex.test(token0.name) ||
-            regex.test(token1.symbol) ||
-            regex.test(token1.name)
-        )
-        return result
-      }
-      return this.vaults
+})
+export default class Home extends Vue {
+  // Data
+  ui = {
+    showFeesBreakdown: false,
+    showLiquidityBreakdown: false,
+  }
+  vaults: any[] = []
+  search = ''
+  overview = {
+    liquidity: {
+      total: 0,
+      UNDLiquidity: 0,
+      uETHLiquidity: 0,
     },
-  },
+    dailyVolume: 0,
+    totalVolume: 0,
+    cRatio: 0,
+    tvl: 0,
+  }
+  fees = {
+    staking: '',
+    devfund: '',
+    safu: '',
+  }
+  loading = false
+
+  // Lifecycle hooks
   mounted() {
     this.queryAllData()
-
     this.$root.$on('networkChanged', this.queryAllData)
-  },
+  }
   beforeDestroy() {
     this.$root.$off('networkChanged', this.queryAllData)
-  },
-  methods: {
-    getIconUrl(args) {
-      return getIconUrl(args)
-    },
-    async queryAllData() {
-      try {
-        this.loading = true
-        const { data } = await this.$apollo.query({
-          client: this.$store.state.selectedNetwork || 'mainnet',
-          query: mainQuery,
-        })
-        this.vaults = data.vaults.map((vault) => ({
-          ...vault,
-          volume: +vault.volume / 1e18,
-          tvl: +vault.tvl / 1e18,
-        }))
+  }
 
-        this.overview.liquidity.UNDLiquidity =
-          +data.factories[0].undMinted / 1e18
+  // Computed Properties
+  get searchResult() {
+    const search = this.search.trim()
+    if (search) {
+      const regex = new RegExp(search, 'ig')
+      const result = this.vaults.filter(
+        ({ id, token0, token1 }) =>
+          regex.test(id) ||
+          (search.slice(0, 2).toLowerCase() === '0x' && regex.test(id)) ||
+          regex.test(token0.symbol) ||
+          regex.test(token0.name) ||
+          regex.test(token1.symbol) ||
+          regex.test(token1.name)
+      )
+      return result
+    }
+    return this.vaults
+  }
 
-        this.calculateOverview()
-        this.loading = false
-      } catch (e) {
-        console.error(e)
-        this.loading = false
-      }
-    },
-    /**
-     * Calculate Overview values from the table
-     */
-    calculateOverview() {
-      this.overview.totalVolume = 0
-      this.overview.tvl = 0
-      this.overview.cRatio = 0
-      // Loop through all vaults
-      const LPTPrice = 1 // Get from subgraph (which may use Oracle itself)
-      this.vaults.forEach((vault) => {
-        this.overview.totalVolume += +vault.volume * LPTPrice
-        this.overview.tvl += +vault.tvl * LPTPrice
+  // Methods
+  getIconUrl(args: any) {
+    return getIconUrl(args)
+  }
+
+  /**
+   * Fetch vault data from the Subgraph via GraphQL
+   */
+  async queryAllData() {
+    try {
+      this.loading = true
+      const { data } = await this.$apollo.query({
+        client: this.$store.state.selectedNetwork || 'mainnet',
+        query: mainQuery,
       })
+      this.vaults = data.vaults.map((vault: any) => ({
+        ...vault,
+        volume: +vault.volume / 1e18,
+        tvl: +vault.tvl / 1e18,
+      }))
 
-      // Temporary
-      this.overview.cRatio = this.vaults[0].cr / 1e6
-    },
-  },
-})
+      this.overview.liquidity.UNDLiquidity = +data.factories[0].undMinted / 1e18
+
+      this.calculateOverview()
+      this.loading = false
+    } catch (e) {
+      console.error(e)
+      this.loading = false
+    }
+  }
+
+  /**
+   * Calculate Overview values from the table
+   */
+  calculateOverview() {
+    this.overview.totalVolume = 0
+    this.overview.tvl = 0
+    this.overview.cRatio = 0
+    
+    // Loop through all vaults
+    const LPTPrice = 1 // Get from subgraph (which may use Oracle itself)
+    this.vaults.forEach((vault) => {
+      this.overview.totalVolume += +vault.volume * LPTPrice
+      this.overview.tvl += +vault.tvl * LPTPrice
+    })
+
+    // Temporary
+    this.overview.cRatio = this.vaults[0].cr / 1e6
+  }
+}
 </script>
 
 <style></style>
