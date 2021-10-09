@@ -552,7 +552,7 @@
 
               <tbody v-else>
                 <tr class="bg-white dark:bg-gray-900">
-                  <td colspan="6">
+                  <td colspan="7">
                     <div class="text-sm text-center p-4 text-gray-600">
                       Token Not found.
                     </div>
