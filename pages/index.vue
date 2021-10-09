@@ -454,6 +454,7 @@
                         <div
                           class="
                             text-xs text-gray-500
+                            -mt-0.5
                             leading-5
                             dark:text-gray-500
                           "
