@@ -1,26 +1,27 @@
 <template>
   <button
     class="
-      w-8
-      h-8
+      w-9
+      h-9
       flex
       items-center
       justify-center
-      rounded
+      rounded-full
+      border
+      border-gray-200
       bg-gray-50
-      dark:bg-gray-700
+      dark:(bg-gray-700 border-gray-900)
       focus:outline-none
     "
     @click="toggleMode"
   >
     <img
-      class="text-light-primary"
       :src="
         require(`~/assets/icons/${
           this.$colorMode.value === 'light' ? 'moon' : 'sun'
         }.svg`)
       "
-      width="12"
+      width="13"
       alt="mode"
     />
   </button>

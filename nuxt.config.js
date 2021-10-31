@@ -64,6 +64,7 @@ export default {
     '@/plugins/ga.js',
     '@/plugins/numberFormatter.js',
     '@/plugins/web3provider.js',
+    '@/plugins/vue-final-modal.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -84,10 +85,14 @@ export default {
 
   apollo: {
     clientConfigs: {
-      default: {
+      // Subgraph: https://thegraph.com/legacy-explorer/subgraph/unbound-finance/unboun
+      mainnet: {
         httpEndpoint:
-          'https://api.thegraph.com/subgraphs/name/furuta/und-kovan',
+          'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound',
       },
+      // rinkeby: {
+      //   httpEndpoint: 'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound'
+      // }
     },
   },
 
@@ -95,5 +100,7 @@ export default {
   modules: ['@nuxtjs/apollo'],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: ['vue-final-modal']
+  },
 }

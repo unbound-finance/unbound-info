@@ -1,0 +1,28 @@
+query main {
+  factories(first: 5){
+    id
+    undMinted
+  }
+  vaults(first: 5) {
+    id
+    txCount
+    tvl
+    volume
+    cr
+    LTV
+    fee
+    limit
+    token0 {
+      id
+      name
+      symbol
+    }
+    token1 {
+      id
+      name
+      symbol
+    }
+  }
+}
+
+

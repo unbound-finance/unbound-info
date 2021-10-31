@@ -40,6 +40,11 @@ export const FAUCET = '0x7FCc135CA31746aeed9a32bC7314347f6ec039C2'
 // Etherscan API host (kovan)
 export const ETHERSCAN_HOST = 'https://api-kovan.etherscan.io/api'
 
+export const NETWORK_COLORS = {
+  mainnet: 'bg-cyan-500',
+  rinkeby: 'bg-yellow-400'
+}
+
 export {
   ERC20_ABI,
   UNBOUND_DOLLAR_ABI,

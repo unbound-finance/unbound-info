@@ -3,6 +3,15 @@
     <a target="_blank" href="https://unbound.finance">
       <img :src="require('@/assets/logo.svg')" width="28" />
     </a>
-    <toggle-dark-mode />
+    <div class="flex items-center space-x-2">
+      <!-- <NetworkSelectMenu /> -->
+      <ToggleDarkMode />
+    </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'Navbar',
+}
+</script>

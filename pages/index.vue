@@ -55,7 +55,7 @@
               />
               <div class="flex flex-col">
                 <div class="font-medium text-gray-800 dark:text-gray-200">
-                  <span v-if="!loading.overview.liquidity.UNDLiquidity">
+                  <span v-if="!loading">
                     {{
                       $numberFormatter(
                         Number(overview.liquidity.UNDLiquidity),
@@ -112,7 +112,7 @@
             class="font-medium text-xl text-gray-800 dark:text-gray-200"
             :title="overview.tvl.toLocaleString()"
           >
-            <span v-if="!loading.overview.tvl">
+            <span v-if="!loading">
               ${{ $numberFormatter(Number(overview.tvl), 1) }}
             </span>
             <span v-else>
@@ -134,7 +134,7 @@
         "
       >
         <div class="flex w-full items-center justify-between">
-          <div class="flex flex-col p-2">
+          <!-- <div class="flex flex-col p-2">
             <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
               >24H Volume</span
             >
@@ -142,14 +142,14 @@
               class="font-medium text-xl text-gray-800 dark:text-gray-200"
               :title="overview.dailyVolume.toLocaleString()"
             >
-              <span v-if="!loading.overview.dailyVolume">
+              <span v-if="!loading">
                 ${{ $numberFormatter(overview.dailyVolume) }}
               </span>
               <span v-else>
                 <content-loader :height="40" :primary-opacity="0.4" />
               </span>
             </div>
-          </div>
+          </div> -->
 
           <div class="flex flex-col p-2">
             <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
@@ -159,7 +159,7 @@
               class="font-medium text-xl text-gray-800 dark:text-gray-200"
               :title="overview.totalVolume.toLocaleString()"
             >
-              <span v-if="!loading.overview.totalVolume">
+              <span v-if="!loading">
                 ${{ $numberFormatter(overview.totalVolume) }}
               </span>
               <span v-else>
@@ -177,9 +177,7 @@
             >Collatralization Ratio</span
           >
           <div class="font-medium text-xl text-gray-800 dark:text-gray-200">
-            <span v-if="!loading.overview.cRatio">
-              {{ overview.cRatio }}%
-            </span>
+            <span v-if="!loading"> {{ overview.cRatio }}% </span>
             <span v-else>
               <content-loader :height="15" :primary-opacity="0.4" />
             </span>
@@ -223,7 +221,7 @@
         >
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
-              <span v-if="!loading.fees"> ${{ Number(fees.staking) }} </span>
+              <span v-if="!loading"> ${{ Number(fees.staking) }} </span>
               <span class="text-xs" v-else> Loading... </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
@@ -233,7 +231,7 @@
 
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
-              <span v-if="!loading.fees"> ${{ Number(fees.safu) }} </span>
+              <span v-if="!loading"> ${{ Number(fees.safu) }} </span>
               <span class="text-xs" v-else> Loading... </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
@@ -243,7 +241,7 @@
 
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
-              <span v-if="!loading.fees"> ${{ Number(fees.devfund) }} </span>
+              <span v-if="!loading"> ${{ Number(fees.devfund) }} </span>
               <span class="text-xs" v-else> Loading... </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
@@ -254,7 +252,7 @@
 
         <div v-else class="px-2 transition-all ease-in duration-150">
           <div class="font-medium text-2xl text-gray-800 dark:text-gray-200">
-            <span v-if="!loading.fees">
+            <span v-if="!loading">
               ${{
                 (
                   Number(fees.staking) +
@@ -280,7 +278,7 @@
     <div class="mt-4 md:mt-8">
       <div class="flex w-full py-2 items-center justify-between">
         <p class="font-medium text-lg p-2 text-gray-800 dark:text-gray-200">
-          Liquidity Pool Tokens
+          Vaults
         </p>
 
         <input
@@ -301,13 +299,15 @@
             dark:bg-gray-900
             dark:text-gray-500
           "
-          placeholder="Search token, address or exchange..."
+          placeholder="Search vault, token or address..."
         />
       </div>
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="min-w-full py-2 align-middle inline-block sm:px-6 lg:px-8">
           <div class="shadow overflow-hidden sm:rounded-lg">
-            <table class="divide-y min-w-full divide-gray-200">
+            <table
+              class="divide-y min-w-full divide-gray-200 dark:(divide-gray-800)"
+            >
               <thead>
                 <tr class="bg-white dark:bg-gray-900">
                   <th
@@ -324,7 +324,7 @@
                       dark:bg-gray-900
                     "
                   >
-                    Name
+                    Vault
                   </th>
 
                   <th
@@ -357,9 +357,9 @@
                       uppercase
                       dark:bg-gray-900
                     "
-                    title="Uniswap Total Value Locked"
+                    title="Unbound Total Value Locked"
                   >
-                    Uniswap TVL
+                    Volume
                   </th>
                   <th
                     class="
@@ -375,7 +375,23 @@
                       dark:bg-gray-900
                     "
                   >
-                    Funding Rate
+                    Loan to Value
+                  </th>
+                  <th
+                    class="
+                      font-medium
+                      bg-gray-50
+                      text-left text-xs
+                      tracking-wider
+                      py-3
+                      px-6
+                      text-gray-500
+                      leading-4
+                      uppercase
+                      dark:bg-gray-900
+                    "
+                  >
+                    CR
                   </th>
                   <th
                     class="
@@ -393,20 +409,35 @@
                   >
                     Minting Fee
                   </th>
-                  <th class="bg-gray-50 py-3 px-6 dark:bg-gray-900"></th>
+                  <th
+                    class="
+                      font-medium
+                      bg-gray-50
+                      text-left text-xs
+                      tracking-wider
+                      py-3
+                      px-6
+                      text-gray-500
+                      leading-4
+                      uppercase
+                      dark:bg-gray-900
+                    "
+                  >
+                    Limit
+                  </th>
                 </tr>
               </thead>
               <tbody
-                v-if="searchResult && searchResult.length != 0"
+                v-if="!loading && searchResult && searchResult.length != 0"
                 class="bg-white bg-opacity-75 dark:bg-gray-900"
               >
                 <tr v-for="(data, i) in searchResult" :key="i">
                   <td class="py-4 px-6 whitespace-no-wrap">
                     <div class="flex items-center">
-                      <div class="flex-shrink-0 h-8 w-8">
+                      <div class="flex-shrink-0 h-8 w-8 mt-2">
                         <double-logo
-                          :token0logo="data.currencyOneLogo"
-                          :token1logo="data.currencyTwoLogo"
+                          :token0="getIconUrl(data.token0.symbol)"
+                          :token1="getIconUrl(data.token1.symbol)"
                         />
                       </div>
                       <div class="ml-4">
@@ -418,16 +449,17 @@
                             dark:text-gray-200
                           "
                         >
-                          {{ data.name }}
+                          {{ data.token0.symbol }} - {{ data.token1.symbol }}
                         </div>
                         <div
                           class="
-                            text-sm text-gray-500
+                            text-xs text-gray-500
+                            -mt-0.5
                             leading-5
-                            dark:text-gray-700
+                            dark:text-gray-500
                           "
                         >
-                          {{ data.exchange }}
+                          {{ data.id }}
                         </div>
                       </div>
                     </div>
@@ -438,60 +470,44 @@
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                       :title="data.tvl.toLocaleString()"
                     >
-                      {{ $numberFormatter(data.tvl, 1) }}
+                      ${{ $numberFormatter(data.tvl, 1) }}
                     </div>
                   </td>
                   <td class="py-4 px-6 whitespace-no-wrap">
                     <div
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
-                      :title="data.uniswapTvl.toLocaleString()"
+                      :title="data.volume.toLocaleString()"
                     >
-                      {{ $numberFormatter(data.uniswapTvl, 1) }}
-                    </div>
-                  </td>
-                  <td class="py-4 px-6 whitespace-no-wrap">
-                    <div
-                      class="text-sm text-gray-900 leading-5 dark:text-gray-200"
-                    >
-                      {{ data.ltv }}%
+                      ${{ $numberFormatter(data.volume, 1) }}
                     </div>
                   </td>
                   <td class="py-4 px-6 whitespace-no-wrap">
                     <div
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                     >
-                      {{ Number((data.mintingFee / 1e6) * 100) }}%
+                      {{ data.LTV / 1e6 }}%
                     </div>
                   </td>
-                  <td
-                    class="
-                      font-medium
-                      text-right text-sm
-                      py-4
-                      px-6
-                      leading-5
-                      whitespace-no-wrap
-                    "
-                  >
-                    <a href="https://zeta.unbound.finance/mint">
-                      <button
-                        type="button"
-                        class="
-                          bg-light-primary
-                          rounded
-                          bg-opacity-25
-                          text-light-primary
-                          py-1
-                          px-6
-                          dark:bg-dark-primary
-                          dark:text-white
-                          appearance-none
-                          focus:outline-none
-                        "
-                      >
-                        Mint
-                      </button>
-                    </a>
+                  <td class="py-4 px-6 whitespace-no-wrap">
+                    <div
+                      class="text-sm text-gray-900 leading-5 dark:text-gray-200"
+                    >
+                      {{ data.cr / 1e6 }}%
+                    </div>
+                  </td>
+                  <td class="py-4 px-6 whitespace-no-wrap">
+                    <div
+                      class="text-sm text-gray-900 leading-5 dark:text-gray-200"
+                    >
+                      {{ data.fee }}%
+                    </div>
+                  </td>
+                  <td class="py-4 px-6 whitespace-no-wrap">
+                    <div
+                      class="text-sm text-gray-900 leading-5 dark:text-gray-200"
+                    >
+                      {{ $numberFormatter(parseInt(data.limit) / 1e18, 1) }}
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -537,7 +553,7 @@
 
               <tbody v-else>
                 <tr class="bg-white dark:bg-gray-900">
-                  <td colspan="6">
+                  <td colspan="7">
                     <div class="text-sm text-center p-4 text-gray-600">
                       Token Not found.
                     </div>
@@ -552,289 +568,123 @@
   </div>
 </template>
 
-<script>
-import Vue from 'vue'
-import { ethers } from 'ethers'
-import { getProvider } from '~/plugins/web3provider'
-// import gql from 'graphql-tag'
-
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator'
 // @ts-ignore
 import { ContentLoader } from 'vue-content-loader'
 
-import supportedPoolTokens from '~/configs/supportedPoolTokens'
+import mainQuery from '~/graphql/queries/main.gql'
+import { getIconUrl } from '~/utils/icons'
 
-import { UNISWAP_LPT_ABI, UNBOUND_DOLLAR_ABI, contracts } from '~/constants'
-
-import { getDecimals } from '~/mixins/ERC20'
-import { getLLC } from '~/mixins/valuator'
-import {
-  getTotalLockedLPT,
-  getLPTPrice,
-  getUniswapTvl,
-  getTotalVolume,
-  getDailyVolume,
-} from '~/mixins/info'
-import { getTotalLiquidity, getCRatio, getTVL } from '~/mixins/analytics'
-import { dynamicsort } from '~/utils'
-
-export default Vue.extend({
+@Component<Home>({
   components: {
     ContentLoader,
   },
-  data() {
-    return {
-      ui: {
-        showFeesBreakdown: false,
-        showLiquidityBreakdown: false,
-      },
-      poolTokens: null,
-      search: '',
-      overview: {
-        liquidity: {
-          total: 0,
-          UNDLiquidity: 0,
-          uETHLiquidity: 0,
-        },
-        dailyVolume: 0,
-        totalVolume: 0,
-        cRatio: 0,
-        tvl: 0,
-      },
-      fees: {
-        staking: '',
-        devfund: '',
-        safu: '',
-      },
-      loading: {
-        overview: {
-          liquidity: {
-            UNDLiquidity: false,
-            uETHLiquidity: false,
-          },
-          dailyVolume: false,
-          totalVolume: false,
-          cRatio: false,
-          tvl: false,
-        },
-        fees: false,
-      },
-    }
-  },
-  computed: {
-    searchResult() {
-      const search = this.search.trim()
-      if (search) {
-        const regex = new RegExp(search, 'ig')
-        const result = this.poolTokens.filter(
-          ({ name, address, exchange }) =>
-            regex.test(name) ||
-            (search.slice(0, 2).toLowerCase() === '0x' &&
-              regex.test(address)) ||
-            regex.test(exchange)
-        )
-        return result
-      }
-      return this.poolTokens
-    },
-  },
-  mounted() {
-    this.getPoolTokens()
-    this.getAnalyticsData()
-    this.getFees()
-  },
-  methods: {
-    async getAnalyticsData() {
-      this.loading.overview.liquidity.UNDLiquidity = true
-      this.loading.overview.liquidity.uETHLiquidity = true
-      this.loading.overview.cRatio = true
-      this.loading.overview.tvl = true
-      this.loading.overview.dailyVolume = true
-      this.loading.overview.totalVolume = true
-
-      const liquidity = await getTotalLiquidity()
-      this.overview.liquidity.total = liquidity.total
-      this.overview.liquidity.UNDLiquidity = liquidity.undLiquidity
-
-      this.loading.overview.liquidity.UNDLiquidity = false
-
-      this.overview.liquidity.uETHLiquidity = liquidity.uethLiquidity
-
-      this.loading.overview.liquidity.uETHLiquidity = false
-
-      this.overview.cRatio = +(await getCRatio())
-
-      this.loading.overview.cRatio = false
-
-      this.overview.tvl = +(await getTVL())
-
-      this.loading.overview.tvl = false
-
-      this.overview.dailyVolume = await getDailyVolume()
-
-      this.loading.overview.dailyVolume = false
-
-      this.overview.totalVolume = await getTotalVolume()
-
-      this.loading.overview.totalVolume = false
-    },
-
-    async getFees() {
-      this.loading.fees = true
-
-      const { provider, signer } = getProvider()
-      const unboundToken = await new ethers.Contract(
-        contracts.unboundDai,
-        UNBOUND_DOLLAR_ABI,
-        provider
-      )
-
-      // get total fee stored in the contract
-      const storedFee = await unboundToken.storedFee()
-
-      // get splitting ratio of the storedFee
-      const stakeShares = await unboundToken.stakeShares()
-      const safuSharesOfStoredFee = await unboundToken.safuSharesOfStoredFee()
-
-      // split stored fee
-      const stakingFees = (storedFee * stakeShares) / 100
-      this.fees.staking = (stakingFees / 1e18).toFixed(2)
-
-      const remainingFee = storedFee - stakingFees
-
-      this.fees.safu = (
-        (remainingFee * safuSharesOfStoredFee) /
-        100 /
-        1e18
-      ).toFixed(2)
-
-      this.fees.devfund = (
-        (remainingFee - (remainingFee * safuSharesOfStoredFee) / 100) /
-        1e18
-      ).toFixed(2)
-
-      this.loading.fees = false
-    },
-
-    async getLoanRatioPerLPT(poolToken) {
-      const { provider, signer } = getProvider()
-      const contract = await new ethers.Contract(
-        poolToken.address,
-        UNISWAP_LPT_ABI,
-        provider
-      )
-      const reserve = await contract.getReserves()
-      const LPTTotalSupply = await contract.totalSupply()
-      const token0 = await contract.token0()
-      const token1 = await contract.token1()
-      const llc = await getLLC(poolToken.llcAddress)
-      if (token0.toLowerCase() === poolToken.stablecoin.toLowerCase()) {
-        const stablecoinDecimal = await getDecimals(token0)
-        let difference
-        let totalValueInDai
-        totalValueInDai = reserve[0].toString() * 2
-        // first case: tokenDecimal is smaller than 18
-        // for stablecoins with less than 18 decimals
-        if (stablecoinDecimal < '18' && stablecoinDecimal >= '0') {
-          // calculate amount of decimals under 18
-          difference = 18 - stablecoinDecimal
-          totalValueInDai = totalValueInDai * 10 ** difference
-        } else if (stablecoinDecimal > '18') {
-          // caclulate amount of decimals over 18
-          difference = stablecoinDecimal - 18
-          // removes decimals to match 18
-          totalValueInDai = totalValueInDai / 10 ** difference
-        }
-
-        return {
-          ltv: (llc.loanRate * 100) / 1e6,
-          price: (totalValueInDai / LPTTotalSupply).toFixed(4).slice(0, -1),
-        }
-      } else {
-        const stablecoinDecimal = await getDecimals(token1)
-        let difference
-        let totalValueInDai
-        // first case: tokenDecimal is smaller than 18
-        // for stablecoins with less than 18 decimals
-        totalValueInDai = reserve[1].toString() * 2
-        if (stablecoinDecimal < '18' && stablecoinDecimal >= '0') {
-          // calculate amount of decimals under 18
-          difference = 18 - stablecoinDecimal
-          totalValueInDai = totalValueInDai * 10 ** difference
-        } else if (stablecoinDecimal > '18') {
-          // caclulate amount of decimals over 18
-          difference = stablecoinDecimal - 18
-          // removes decimals to match 18
-          totalValueInDai = totalValueInDai / 10 ** difference
-        }
-
-        return {
-          ltv: (llc.loanRate * 100) / 1e6,
-          price: (totalValueInDai / LPTTotalSupply).toFixed(4).slice(0, -1),
-        }
-      }
-    },
-
-    async getPoolTokens() {
-      try {
-        // @ts-ignore
-        this.poolTokens = (
-          await Promise.all(
-            supportedPoolTokens.map(async (ev) => {
-              const loanRatio = await this.getLoanRatioPerLPT(ev)
-              const lockedLPT = await getTotalLockedLPT(
-                ev.address,
-                ev.llcAddress
-              )
-              const mintingFee = await getLLC(ev.llcAddress)
-              const price = await getLPTPrice(ev)
-              // @ts-ignore
-              const tvl = Number(lockedLPT * price)
-              const uniswapTvl = await getUniswapTvl(ev.uniswapAddress)
-
-              return {
-                ...ev,
-                ltv: loanRatio.ltv,
-                mintingFee: mintingFee.fee,
-                price: Number(price).toFixed(2),
-                lockedLPT,
-                tvl,
-                uniswapTvl,
-              }
-            })
-          )
-        ).sort(dynamicsort('tvl', 'desc'))
-      } catch (error) {
-        console.log('getPoolTokens error')
-        throw new Error('Something went wrong! ' + error)
-      }
-    },
-  },
-  // apollo: {
-  //   graphQLData: {
-  //     query: gql`
-  //       {
-  //         alls {
-  //           lockUSD
-  //           unlockUSD
-  //         }
-
-  //         dailies(first: 1, orderBy: date, orderDirection: desc) {
-  //           lockUSD
-  //           unlockUSD
-  //         }
-  //       }
-  //     `,
-  //     result(queryData) {
-  //       console.log("Got the result: ", queryData)
-  //       this.overview.totalVolume =
-  //         +queryData.data.alls[0].lockUSD + +queryData.data.alls[0].unlockUSD
-  //         console.log(this.overview.totalVolume)
-  //       this.overview.dailyVolume =
-  //         +queryData.data.dailies[0].lockUSD + +queryData.data.dailies[0].unlockUSD
-  //     },
-  //   },
-  // },
 })
+export default class Home extends Vue {
+  // Data
+  ui = {
+    showFeesBreakdown: false,
+    showLiquidityBreakdown: false,
+  }
+  vaults: any[] = []
+  search = ''
+  overview = {
+    liquidity: {
+      total: 0,
+      UNDLiquidity: 0,
+      uETHLiquidity: 0,
+    },
+    dailyVolume: 0,
+    totalVolume: 0,
+    cRatio: 0,
+    tvl: 0,
+  }
+  fees = {
+    staking: '',
+    devfund: '',
+    safu: '',
+  }
+  loading = false
+
+  // Lifecycle hooks
+  mounted() {
+    this.queryAllData()
+    this.$root.$on('networkChanged', this.queryAllData)
+  }
+  beforeDestroy() {
+    this.$root.$off('networkChanged', this.queryAllData)
+  }
+
+  // Computed Properties
+  get searchResult() {
+    const search = this.search.trim()
+    if (search) {
+      const regex = new RegExp(search, 'ig')
+      const result = this.vaults.filter(
+        ({ id, token0, token1 }) =>
+          regex.test(id) ||
+          (search.slice(0, 2).toLowerCase() === '0x' && regex.test(id)) ||
+          regex.test(token0.symbol) ||
+          regex.test(token0.name) ||
+          regex.test(token1.symbol) ||
+          regex.test(token1.name)
+      )
+      return result
+    }
+    return this.vaults
+  }
+
+  // Methods
+  getIconUrl(args: any) {
+    return getIconUrl(args)
+  }
+
+  /**
+   * Fetch vault data from the Subgraph via GraphQL
+   */
+  async queryAllData() {
+    try {
+      this.loading = true
+      const { data } = await this.$apollo.query({
+        client: this.$store.state.selectedNetwork || 'mainnet',
+        query: mainQuery,
+      })
+      this.vaults = data.vaults.map((vault: any) => ({
+        ...vault,
+        volume: +vault.volume / 1e18,
+        tvl: +vault.tvl / 1e18,
+      }))
+
+      this.overview.liquidity.UNDLiquidity = +data.factories[0].undMinted / 1e18
+
+      this.calculateOverview()
+      this.loading = false
+    } catch (e) {
+      console.error(e)
+      this.loading = false
+    }
+  }
+
+  /**
+   * Calculate Overview values from the table
+   */
+  calculateOverview() {
+    this.overview.totalVolume = 0
+    this.overview.tvl = 0
+    this.overview.cRatio = 0
+    
+    // Loop through all vaults
+    const LPTPrice = 1 // Get from subgraph (which may use Oracle itself)
+    this.vaults.forEach((vault) => {
+      this.overview.totalVolume += +vault.volume * LPTPrice
+      this.overview.tvl += +vault.tvl * LPTPrice
+    })
+
+    // Temporary
+    this.overview.cRatio = this.vaults[0].cr / 1e6
+  }
+}
 </script>
 
 <style></style>
