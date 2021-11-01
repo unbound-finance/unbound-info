@@ -499,7 +499,7 @@
                     <div
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                     >
-                      {{ data.fee }}%
+                      {{ data.fee / 1e6 }}%
                     </div>
                   </td>
                   <td class="py-4 px-6 whitespace-no-wrap">
@@ -644,6 +644,11 @@ export default class Home extends Vue {
    * Fetch vault data from the Subgraph via GraphQL
    */
   async queryAllData() {
+    console.log(
+      'Selected Network from state: ',
+      this.$store.state.selectedNetwork
+    )
+
     try {
       this.loading = true
       const { data } = await this.$apollo.query({
@@ -673,7 +678,7 @@ export default class Home extends Vue {
     this.overview.totalVolume = 0
     this.overview.tvl = 0
     this.overview.cRatio = 0
-    
+
     // Loop through all vaults
     const LPTPrice = 1 // Get from subgraph (which may use Oracle itself)
     this.vaults.forEach((vault) => {
