@@ -499,7 +499,7 @@
                     <div
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                     >
-                      {{ data.fee / 1e6 }}%
+                      {{ (+data.fee + +data.stakeFee) / 1e6 }}%
                     </div>
                   </td>
                   <td class="py-4 px-6 whitespace-no-wrap">

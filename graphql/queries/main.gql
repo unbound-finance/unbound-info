@@ -11,6 +11,7 @@ query main {
     cr
     LTV
     fee
+    stakeFee
     limit
     token0 {
       id
