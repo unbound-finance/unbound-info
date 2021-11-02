@@ -645,17 +645,14 @@ export default class Home extends Vue {
    * Fetch vault data from the Subgraph via GraphQL
    */
   async queryAllData() {
-    console.log(
-      'Selected Network from state: ',
-      this.$store.state.selectedNetwork
-    )
-
     try {
       this.loading = true
       const { data } = await this.$apollo.query({
         client: this.$store.state.selectedNetwork || 'mainnet',
         query: mainQuery,
       })
+      console.log(data)
+
       this.vaults = data.vaults.map((vault: any) => ({
         ...vault,
         volume: +vault.volume / 1e18,
@@ -663,7 +660,13 @@ export default class Home extends Vue {
       }))
       this.factories = data.factories
 
-      this.overview.liquidity.UNDLiquidity = +data.factories[0].undMinted / 1e18
+      // Summation of uTokens Minted
+      this.overview.liquidity.UNDLiquidity = data.factories.reduce(
+        (accumulator: any, current: any) => {
+          return accumulator + +current.undMinted / 1e18
+        },
+        0
+      )
 
       this.calculateOverview()
       this.loading = false
