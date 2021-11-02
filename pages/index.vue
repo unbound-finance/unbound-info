@@ -459,7 +459,7 @@
                             dark:text-gray-500
                           "
                         >
-                          {{ data.id }}
+                          {{ getFactoryNameById(data.factory) }}
                         </div>
                       </div>
                     </div>
@@ -587,6 +587,7 @@ export default class Home extends Vue {
     showFeesBreakdown: false,
     showLiquidityBreakdown: false,
   }
+  factories: any[] = []
   vaults: any[] = []
   search = ''
   overview = {
@@ -660,6 +661,7 @@ export default class Home extends Vue {
         volume: +vault.volume / 1e18,
         tvl: +vault.tvl / 1e18,
       }))
+      this.factories = data.factories
 
       this.overview.liquidity.UNDLiquidity = +data.factories[0].undMinted / 1e18
 
@@ -688,6 +690,10 @@ export default class Home extends Vue {
 
     // Temporary
     this.overview.cRatio = this.vaults[0].cr / 1e6
+  }
+
+  getFactoryNameById(id: string) {
+    return this.factories.find((factory) => factory.id === id)?.name ?? ''
   }
 }
 </script>

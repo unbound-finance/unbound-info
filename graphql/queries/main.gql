@@ -1,10 +1,12 @@
 query main {
   factories(first: 5){
     id
+    name
     undMinted
   }
   vaults(first: 5) {
     id
+    factory
     txCount
     tvl
     volume
