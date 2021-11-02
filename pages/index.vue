@@ -602,9 +602,9 @@ export default class Home extends Vue {
     tvl: 0,
   }
   fees = {
-    staking: '',
-    devfund: '',
-    safu: '',
+    staking: 0,
+    devfund: 0,
+    safu: 0,
   }
   loading = false
 
@@ -651,7 +651,6 @@ export default class Home extends Vue {
         client: this.$store.state.selectedNetwork || 'mainnet',
         query: mainQuery,
       })
-      console.log(data)
 
       this.vaults = data.vaults.map((vault: any) => ({
         ...vault,
@@ -660,14 +659,7 @@ export default class Home extends Vue {
       }))
       this.factories = data.factories
 
-      // Summation of uTokens Minted
-      this.overview.liquidity.UNDLiquidity = data.factories.reduce(
-        (accumulator: any, current: any) => {
-          return accumulator + +current.undMinted / 1e18
-        },
-        0
-      )
-
+      this.calculateFactoryData()
       this.calculateOverview()
       this.loading = false
     } catch (e) {
@@ -692,6 +684,25 @@ export default class Home extends Vue {
 
     // Temporary
     this.overview.cRatio = this.vaults[0].cr / 1e6
+  }
+
+  calculateFactoryData() {
+    let UNDLiquidity = 0
+    let stakeFees = 0
+    let safuFees = 0
+    let teamFees = 0
+
+    this.factories.forEach((factory) => {
+      UNDLiquidity += factory.undMinted
+      stakeFees += factory.stakeFee
+      safuFees += factory.safuFee
+      teamFees += factory.teamFee
+    })
+
+    this.overview.liquidity.UNDLiquidity = UNDLiquidity
+    this.fees.staking = stakeFees
+    this.fees.safu = safuFees
+    this.fees.devfund = teamFees
   }
 
   getFactoryNameById(id: string) {

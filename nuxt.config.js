@@ -90,9 +90,9 @@ export default {
         httpEndpoint:
           'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound',
       },
-      rinkeby: {
-        httpEndpoint: 'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound-rinkeby'
-      }
+      // rinkeby: {
+      //   httpEndpoint: 'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound-rinkeby'
+      // }
     },
   },
 
@@ -101,6 +101,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: ['vue-final-modal']
+    transpile: ['vue-final-modal'],
   },
 }

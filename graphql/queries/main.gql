@@ -2,6 +2,9 @@ query main {
   factories(first: 5){
     id
     name
+    stakeFee
+    safuFee
+    teamFee
     undMinted
   }
   vaults(first: 5) {
