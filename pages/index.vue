@@ -619,17 +619,17 @@ export default class Home extends Vue {
 
   // Computed Properties
   get searchResult() {
-    const search = this.search.trim()
+    const search = this.search.trim().toLowerCase()
     if (search) {
       const regex = new RegExp(search, 'ig')
       const result = this.vaults.filter(
-        ({ id, token0, token1 }) =>
-          regex.test(id) ||
+        ({ id, token0, token1, factory }) =>
           (search.slice(0, 2).toLowerCase() === '0x' && regex.test(id)) ||
           regex.test(token0.symbol) ||
           regex.test(token0.name) ||
           regex.test(token1.symbol) ||
-          regex.test(token1.name)
+          regex.test(token1.name) ||
+          regex.test(this.getFactoryNameById(factory))
       )
       return result
     }
@@ -685,10 +685,9 @@ export default class Home extends Vue {
     this.overview.cRatio = 0
 
     // Loop through all vaults
-    const LPTPrice = 1 // Get from subgraph (which may use Oracle itself)
     this.vaults.forEach((vault) => {
-      this.overview.totalVolume += +vault.volume * LPTPrice
-      this.overview.tvl += +vault.tvl * LPTPrice
+      this.overview.totalVolume += +vault.volume
+      this.overview.tvl += +vault.tvl
     })
 
     // Temporary
