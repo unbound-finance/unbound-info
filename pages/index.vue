@@ -694,9 +694,9 @@ export default class Home extends Vue {
 
     this.factories.forEach((factory) => {
       UNDLiquidity += factory.undMinted / 1e18
-      stakeFees += factory.stakeFee
-      safuFees += factory.safuFee
-      teamFees += factory.teamFee
+      stakeFees += factory.stakeFee / 1e18
+      safuFees += factory.safuFee / 1e18
+      teamFees += factory.teamFee / 1e18
     })
 
     this.overview.liquidity.UNDLiquidity = UNDLiquidity
