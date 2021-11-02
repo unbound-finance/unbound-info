@@ -64,11 +64,15 @@ export default {
     '@/plugins/ga.js',
     '@/plugins/numberFormatter.js',
     '@/plugins/web3provider.js',
-    '@/plugins/vue-final-modal.js',
+    // '@/plugins/vue-final-modal.js',
+    '@/plugins/v-tooltip.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
+  components: [
+    '~/components/',
+    { path: '~/components/Icons/', pathPrefix: false },
+  ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [

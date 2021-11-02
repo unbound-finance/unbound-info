@@ -152,9 +152,12 @@
           </div> -->
 
           <div class="flex flex-col p-2">
-            <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
-              >Total Volume</span
-            >
+            <div class="flex space-x-1">
+              <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
+                >Total Volume</span
+              >
+              <InfoCircle v-tooltip.right="'Mint and Burn volume combined'" />
+            </div>
             <div
               class="font-medium text-xl text-gray-800 dark:text-gray-200"
               :title="overview.totalVolume.toLocaleString()"
@@ -221,7 +224,9 @@
         >
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
-              <span v-if="!loading"> ${{ Number(fees.staking).toLocaleString('en-us') }} </span>
+              <span v-if="!loading">
+                ${{ Number(fees.staking).toLocaleString('en-us') }}
+              </span>
               <span class="text-xs" v-else> Loading... </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
@@ -231,7 +236,9 @@
 
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
-              <span v-if="!loading"> ${{ Number(fees.safu).toLocaleString('en-us') }} </span>
+              <span v-if="!loading">
+                ${{ Number(fees.safu).toLocaleString('en-us') }}
+              </span>
               <span class="text-xs" v-else> Loading... </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
@@ -241,7 +248,9 @@
 
           <div class="flex flex-col items-center justify-center">
             <div class="font-medium text-lg text-gray-800 dark:text-gray-200">
-              <span v-if="!loading"> ${{ Number(fees.devfund).toLocaleString('en-us') }} </span>
+              <span v-if="!loading">
+                ${{ Number(fees.devfund).toLocaleString('en-us') }}
+              </span>
               <span class="text-xs" v-else> Loading... </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
@@ -355,11 +364,16 @@
                       text-gray-500
                       leading-4
                       uppercase
+                      flex
+                      space-x-1
                       dark:bg-gray-900
                     "
                     title="Unbound Total Value Locked"
                   >
-                    Volume
+                    <span>Volume</span>
+                    <InfoCircle
+                      v-tooltip.right="'Mint and Burn volume combined'"
+                    />
                   </th>
                   <th
                     class="
