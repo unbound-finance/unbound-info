@@ -156,7 +156,7 @@
               <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
                 >Total Volume</span
               >
-              <InfoCircle v-tooltip.right="'Mint and Burn volume combined'" />
+              <InfoCircle class="text-gray-500 dark:text-gray-600" v-tooltip.right="'Mint and Burn volume combined'" />
             </div>
             <div
               class="font-medium text-xl text-gray-800 dark:text-gray-200"
