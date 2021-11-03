@@ -513,7 +513,11 @@
                     <div
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
                     >
-                      {{ +data.LTV === 0 ? 0 : ((+data.fee + +data.stakeFee) / 1e6) }}%
+                      {{
+                        +data.LTV === 0
+                          ? 0
+                          : (+data.fee + +data.stakeFee) / 1e6
+                      }}%
                     </div>
                   </td>
                   <td class="py-4 px-6 whitespace-no-wrap">
@@ -673,8 +677,14 @@ export default class Home extends Vue {
       }))
       this.factories = data.factories
 
-      this.calculateFactoryData()
       this.calculateOverview()
+      this.calculateFactoryData()
+
+      this.overview.cRatio = +(
+        (this.overview.liquidity.UNDLiquidity / this.overview.tvl) *
+        100
+      ).toFixed(2)
+
       this.loading = false
     } catch (e) {
       console.error(e)
@@ -695,9 +705,6 @@ export default class Home extends Vue {
       this.overview.totalVolume += +vault.volume
       this.overview.tvl += +vault.tvl
     })
-
-    // Temporary
-    this.overview.cRatio = this.vaults[0].cr / 1e6
   }
 
   calculateFactoryData() {
