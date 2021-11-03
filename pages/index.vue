@@ -680,10 +680,10 @@ export default class Home extends Vue {
       this.calculateOverview()
       this.calculateFactoryData()
 
-      this.overview.cRatio = +(
-        (this.overview.liquidity.UNDLiquidity / this.overview.tvl) *
-        100
-      ).toFixed(2)
+      let overviewCR =
+        (this.overview.liquidity.UNDLiquidity / this.overview.tvl) * 100
+      overviewCR = 100 + (100 - overviewCR)
+      this.overview.cRatio = +overviewCR.toFixed(2)
 
       this.loading = false
     } catch (e) {
