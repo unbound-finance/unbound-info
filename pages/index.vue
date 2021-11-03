@@ -151,7 +151,7 @@
             </div>
           </div> -->
 
-          <div class="flex flex-col p-2">
+          <div class="flex flex-col px-2 pt-2 pb-1 mt-4">
             <div class="flex space-x-1">
               <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
                 >Total Volume</span
@@ -173,7 +173,7 @@
         </div>
 
         <div
-          class="border-b border-gray-200 my-2 -mx-2 dark:border-gray-800"
+          class="border-b border-gray-200 mb-2 mt-4 -mx-2 dark:border-gray-800"
         ></div>
         <div class="flex flex-col p-2">
           <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
