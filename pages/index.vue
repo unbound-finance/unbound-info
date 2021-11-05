@@ -156,7 +156,10 @@
               <span class="text-xs text-gray-500 uppercase dark:text-gray-600"
                 >Total Volume</span
               >
-              <InfoCircle class="text-gray-500 dark:text-gray-600" v-tooltip.right="'Mint and Burn volume combined'" />
+              <InfoCircle
+                class="text-gray-500 dark:text-gray-600"
+                v-tooltip.right="'Mint and Burn volume combined'"
+              />
             </div>
             <div
               class="font-medium text-xl text-gray-800 dark:text-gray-200"
@@ -714,7 +717,7 @@ export default class Home extends Vue {
     let teamFees = 0
 
     this.factories.forEach((factory) => {
-      UNDLiquidity += factory.undMinted / 1e18
+      UNDLiquidity = factory.undMinted / 1e18
       stakeFees += factory.stakeFee / 1e18
       safuFees += factory.safuFee / 1e18
       teamFees += factory.teamFee / 1e18
