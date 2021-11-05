@@ -1,11 +1,14 @@
 query main {
-  factories(first: 5){
+  protocol(id: "unbound") {
+    id
+    undMinted
+  }
+  factories(first: 5) {
     id
     name
     stakeFee
     safuFee
     teamFee
-    undMinted
   }
   vaults(first: 5) {
     id
@@ -30,5 +33,3 @@ query main {
     }
   }
 }
-
-

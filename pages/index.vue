@@ -683,6 +683,8 @@ export default class Home extends Vue {
       this.calculateOverview()
       this.calculateFactoryData()
 
+      this.overview.liquidity.UNDLiquidity = +data.protocol.undMinted / 1e18
+
       let overviewCR =
         (this.overview.liquidity.UNDLiquidity / this.overview.tvl) * 100
       overviewCR = 100 + (100 - overviewCR)
@@ -711,19 +713,16 @@ export default class Home extends Vue {
   }
 
   calculateFactoryData() {
-    let UNDLiquidity = 0
     let stakeFees = 0
     let safuFees = 0
     let teamFees = 0
 
     this.factories.forEach((factory) => {
-      UNDLiquidity = factory.undMinted / 1e18
       stakeFees += factory.stakeFee / 1e18
       safuFees += factory.safuFee / 1e18
       teamFees += factory.teamFee / 1e18
     })
 
-    this.overview.liquidity.UNDLiquidity = UNDLiquidity
     this.fees.staking = stakeFees
     this.fees.safu = safuFees
     this.fees.devfund = teamFees
