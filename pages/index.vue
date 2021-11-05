@@ -354,7 +354,7 @@
                     "
                     title="Unbound Total Value Locked"
                   >
-                    Unbound TVL
+                    TVL
                   </th>
                   <th
                     class="
@@ -373,10 +373,10 @@
                     "
                     title="Unbound Total Value Locked"
                   >
-                    <span>Volume</span>
-                    <InfoCircle
+                    <span>UND Minted</span>
+                    <!-- <InfoCircle
                       v-tooltip.right="'Mint and Burn volume combined'"
-                    />
+                    /> -->
                   </th>
                   <th
                     class="
@@ -493,9 +493,9 @@
                   <td class="py-4 px-6 whitespace-no-wrap">
                     <div
                       class="text-sm text-gray-900 leading-5 dark:text-gray-200"
-                      :title="data.volume.toLocaleString()"
+                      :title="data.undMinted.toLocaleString()"
                     >
-                      ${{ $numberFormatter(data.volume, 1) }}
+                      {{ $numberFormatter(data.undMinted / 1e18, 1) }}
                     </div>
                   </td>
                   <td class="py-4 px-6 whitespace-no-wrap">
