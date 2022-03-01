@@ -94,6 +94,10 @@ export default {
         httpEndpoint:
           'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound',
       },
+      polygon: {
+        httpEndpoint:
+          'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound-polygon',
+      },
       // rinkeby: {
       //   httpEndpoint: 'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound-rinkeby'
       // }

@@ -1,7 +1,7 @@
 import { defineConfig } from 'windicss/helpers'
 
 export default defineConfig({
-   safelist: 'bg-cyan-500 bg-yellow-400',
+   safelist: 'bg-cyan-500 bg-yellow-400 bg-purple-500',
     theme: {
       // darkSelector: '.dark-mode', // class for dark mode
       extend: {
