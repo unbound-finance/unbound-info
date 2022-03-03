@@ -669,7 +669,7 @@ export default class Home extends Vue {
     try {
       this.loading = true
       const { data } = await this.$apollo.query({
-        client: this.$store.state.selectedNetwork || 'mainnet',
+        client: this.$store.state.selectedNetwork || 'ethereum',
         query: mainQuery,
       })
 

@@ -41,7 +41,7 @@ export const FAUCET = '0x7FCc135CA31746aeed9a32bC7314347f6ec039C2'
 // export const ETHERSCAN_HOST = 'https://api-kovan.etherscan.io/api'
 
 export const NETWORK_COLORS = {
-  mainnet: 'bg-cyan-500',
+  ethereum: 'bg-cyan-500',
   polygon: 'bg-purple-500',
   rinkeby: 'bg-yellow-400',
 }

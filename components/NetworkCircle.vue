@@ -11,7 +11,7 @@ export default Vue.extend({
   props: {
     network: {
       type: String,
-      default: 'mainnet',
+      default: 'ethereum',
     },
   },
   computed: {
