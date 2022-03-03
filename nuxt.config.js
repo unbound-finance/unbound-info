@@ -66,6 +66,7 @@ export default {
     '@/plugins/web3provider.js',
     // '@/plugins/vue-final-modal.js',
     '@/plugins/v-tooltip.js',
+    '@/plugins/directives.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="options && selected">
+  <div v-if="options && selected" v-click-outside="close">
     <div class="relative font-poppins">
       <button
         type="button"
@@ -165,12 +165,12 @@ export default {
   },
   methods: {
     select(option) {
-      if(this.selected === option) {
-        this.open = false
+      if (this.selected === option) {
+        this.close()
         return
       }
       this.selected = option
-      this.open = false
+      this.close()
       this.$store.commit('setSelectedNetwork', option)
       this.$root.$emit('networkChanged')
     },
@@ -179,6 +179,9 @@ export default {
     },
     onMouseLeave(option) {
       if (this.hoverState === option) this.hoverState = null
+    },
+    close() {
+      this.open = false
     },
   },
 }
