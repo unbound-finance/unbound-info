@@ -233,7 +233,7 @@
               <span class="text-xs" v-else> Loading... </span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-600"
-              >Staker Fees</span
+              >Minting Fees</span
             >
           </div>
 
