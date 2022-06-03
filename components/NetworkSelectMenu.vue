@@ -29,7 +29,7 @@
       >
         <span class="flex items-center">
           <NetworkCircle :network="selected" />
-          <span class="ml-3 block truncate"> {{ selected }} </span>
+          <span class="ml-3 block truncate"> {{ selected.replace(selected[0], selected[0].toUpperCase()) }} </span>
         </span>
         <span
           class="
@@ -139,7 +139,7 @@
                 class="ml-3 block truncate"
                 :class="selected === option ? 'font-semibold' : 'font-normal'"
               >
-                {{ option }}
+                {{ option.replace(option[0], option[0].toUpperCase()) }}
               </span>
             </div>
           </li>
