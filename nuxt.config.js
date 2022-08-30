@@ -91,10 +91,10 @@ export default {
   apollo: {
     clientConfigs: {
       // Subgraph: https://thegraph.com/legacy-explorer/subgraph/unbound-finance/unboun
-      ethereum: {
-        httpEndpoint:
-          'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound',
-      },
+      // ethereum: {
+      //   httpEndpoint:
+      //     'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound',
+      // },
       polygon: {
         httpEndpoint:
           'https://api.thegraph.com/subgraphs/name/unbound-finance/unbound-polygon',
